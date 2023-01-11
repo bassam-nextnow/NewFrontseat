@@ -73,7 +73,7 @@ class KycApi {
     );
     if (response.statusCode == 200) {
       log('success');
-      log(response.data.toString());
+
     } else {
       log('heyda');
     }
@@ -169,7 +169,7 @@ class KycApi {
     ));
     try {
       final response = await dio.post(
-        FrontSeatApi.resetPass,
+        FrontSeatApi.forgotPass,
         data: formData,
       );
       log(response.data.toString());

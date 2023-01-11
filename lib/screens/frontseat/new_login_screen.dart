@@ -122,7 +122,7 @@ class _LoginFrontSeatState extends State<LoginFrontSeat> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ResetPasswordScreen()));
+                                                  ForgotPassword()));
                                     },
                                     child: const TextWidget(
                                         txt: 'Forgot password?'))

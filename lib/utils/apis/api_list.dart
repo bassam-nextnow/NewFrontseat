@@ -4,7 +4,7 @@ class FrontSeatApi {
    static const String base = 'https://frontseat.nextnow.group';
   static const String loginUser = '$base/api/agentLogin';
   static const String registerUser = '$base/api/agentSignup';
-  static const String resetPass = '$baseUrl/api/Applogin/resetpassword';
+  static const String forgotPass = '$base/api/agentForgotPassword';
   static const String getOtp = '$base/api/phoneVerificationRequest';
   static const String mpobileverified = '$base/api/api/phoneVerificationSave';
   static const String onboardAgent = '$base/api/agentUpdate';
@@ -13,4 +13,7 @@ class FrontSeatApi {
   static const String checkInOut = '$baseUrl/timesheets/api/check_in_out';
   static const String acceptContract = '$baseUrl/api/Applogin/agentContractAccept';
    static const String getpdf = '$baseUrl/api/Applogin/agentContractPdf';
+     static String setToken(String? id, String? token) {
+    return base + '/api/' + 'set-fcm-token?id=$id&token=$token';
+  }
 }

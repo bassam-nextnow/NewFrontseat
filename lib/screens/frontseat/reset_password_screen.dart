@@ -1,15 +1,30 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../utils/Utils.dart';
+import '../../utils/apis/api_list.dart';
 import '../../utils/widget/textwidget.dart';
 import '../../utils/widget/txtbox.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
-  ResetPasswordScreen({Key? key}) : super(key: key);
-  TextEditingController controller = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+class ForgotPassword extends StatefulWidget {
+  ForgotPassword({Key? key}) : super(key: key);
+
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
+  TextEditingController phonecontroller = TextEditingController();
+
+  TextEditingController emailcontroller = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
@@ -19,7 +34,7 @@ class ResetPasswordScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -38,8 +53,26 @@ class ResetPasswordScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 50),
                 TxtField(
+                  hint: 'Registered Mobile No.',
+                  controller: phonecontroller,
+                  formatter: [
+                    LengthLimitingTextInputFormatter(10),
+                    //digits only
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  type: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Phone Number is required';
+                    } else if (value.length != 10 || value[0] != '0') {
+                      return 'Phone number should be 10 digits starting with 0';
+                    }
+                    return null;
+                  },
+                ),
+                TxtField(
                   hint: 'Email address',
-                  controller: controller,
+                  controller: emailcontroller,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Enter the email address';
@@ -57,7 +90,13 @@ class ResetPasswordScreen extends StatelessWidget {
                     borderRadius: 5,
                     color: Colors.red,
                     controller: _btnController,
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        forgotPassword();
+                      } else {
+                        _btnController.reset();
+                      }
+                    },
                     child: const Text('Send link',
                         style: TextStyle(color: Colors.white)),
                   ),
@@ -68,5 +107,27 @@ class ResetPasswordScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  forgotPassword() async {
+    var data = {
+      'phone': phonecontroller.text,
+      'email': emailcontroller.text,
+    };
+    final response = await http.post(
+      Uri.parse(FrontSeatApi.forgotPass),
+      body: data,
+    );
+    if (response.statusCode == 200) {
+      log(response.body);
+      Utils.showToast(
+          'Reset password email link has been sent to your registered mobile no.');
+      Navigator.pop(context);
+      _btnController.reset();
+    } else {
+      _btnController.reset();
+      Utils.showErrorToast('Invalid Credentials');
+      throw Exception('Failed to load');
+    }
   }
 }
