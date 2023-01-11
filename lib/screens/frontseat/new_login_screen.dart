@@ -35,6 +35,8 @@ class _LoginFrontSeatState extends State<LoginFrontSeat> {
       RoundedLoadingButtonController();
   UserDetailsController _userDetailsController =
       Get.put(UserDetailsController());
+  final RegExp regExp =
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,27 +94,30 @@ class _LoginFrontSeatState extends State<LoginFrontSeat> {
                               height: 10,
                             ),
                             TxtField(
-                              hint: 'Password',
-                              controller: passwordController,
-                              pass: isObscure,
-                              icon: IconButton(
-                                  icon: Icon(
-                                    isObscure
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      isObscure = !isObscure;
-                                    });
-                                  }),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'password is required';
-                                }
-                                return null;
-                              },
-                            ),
+                                hint: 'Password',
+                                controller: passwordController,
+                                pass: isObscure,
+                                icon: IconButton(
+                                    icon: Icon(
+                                      isObscure
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isObscure = !isObscure;
+                                      });
+                                    }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'password is required';
+                                  } else if (value.length < 8) {
+                                    return 'password must be at least 8 characters';
+                                  } else if (!regExp.hasMatch(value)) {
+                                    return 'Atleast one uppercase,lowercase,numeric and\nspecial character is required ';
+                                  }
+                                  return null;
+                                }),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [

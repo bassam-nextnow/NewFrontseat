@@ -157,6 +157,10 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'password is required';
+                              } else if (value.length < 8) {
+                                return 'password must be at least 8 characters';
+                              } else if (!regExp.hasMatch(value)) {
+                                return 'Atleast one uppercase,lowercase,numeric and\nspecial character is required ';
                               }
                               return null;
                             },
@@ -182,9 +186,12 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> {
                                 }),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Confirm password is required';
-                              } else if (value!.isNotEmpty &&
-                                  value != passwordController.text) {
+                                return 'password is required';
+                              } else if (value.length < 8) {
+                                return 'password must be at least 8 characters';
+                              } else if (!regExp.hasMatch(value)) {
+                                return 'Atleast one uppercase,lowercase,numeric and\nspecial character is required ';
+                              } else if (value != passwordController.text) {
                                 return 'Password does not match';
                               }
                               return null;
