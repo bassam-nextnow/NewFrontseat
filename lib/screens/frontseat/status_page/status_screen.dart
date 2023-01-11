@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nextschool/screens/frontseat/change_password_screen.dart';
 import 'package:nextschool/screens/frontseat/status_page/widgets/detail_card.dart';
 
 import '../../../controller/kyc_step_model.dart';
@@ -216,6 +217,24 @@ class _CustomSidebarState extends State<CustomSidebar> {
                       }),
                 ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResetPassword(),
+                        ));
+                  },
+                  child: const Text(
+                    'Reset Password',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              ],
             ),
           ],
         ),
