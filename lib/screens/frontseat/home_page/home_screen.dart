@@ -16,6 +16,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../controller/kyc_step_model.dart';
 import '../../../utils/Utils.dart';
+import '../../../utils/apis/kyc_api.dart';
 import '../../../utils/model/ReceivedSms.dart';
 import '../../../utils/widget/textwidget.dart';
 import '../agent_onboarding/form_resubmission_page.dart';
@@ -79,11 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Utils.getIntValue('id').then((value) {
-      id = value;
-      // KycApi.kycStatus(id);
-      // KycApi.AgentStatus(id);
-    });
+
+    KycApi.kycStatus();
+    // KycApi.AgentStatus(id);
     //init settings for android
     var initializationSettingsAndroid =
         const AndroidInitializationSettings('@mipmap/ic_launcher');

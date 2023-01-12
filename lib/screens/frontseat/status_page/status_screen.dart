@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nextschool/screens/frontseat/agent_onboarding/verify_email_screen.dart';
 import 'package:nextschool/screens/frontseat/change_password_screen.dart';
 import 'package:nextschool/screens/frontseat/status_page/widgets/detail_card.dart';
 
@@ -24,8 +25,9 @@ class _CustomSidebarState extends State<CustomSidebar> {
   String? firstName;
   String? lastName;
   String? email;
-  String? mobileVerified;
-  String? uploadDocuments;
+  bool? mobileVerified;
+  bool? uploadDocuments;
+ bool? emailVerified;
   String? status;
   var image;
   var id;
@@ -68,8 +70,9 @@ class _CustomSidebarState extends State<CustomSidebar> {
                           mobile = data.mobile;
                           firstName = data.fullName ?? '';
                           email = data.email;
-                          mobileVerified = data.mobileVerified.toString();
-                          uploadDocuments = data.bankingDocument.toString();
+                          emailVerified = data.emailVerifiedAt;
+                          mobileVerified = data.mobileVerified;
+                          uploadDocuments = data.bankingDocument;
                           // status = data.activeStatus.toString();
                         }
                         return Column(
@@ -182,15 +185,32 @@ class _CustomSidebarState extends State<CustomSidebar> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                const DetailCard(
-                                  scale: .8,
-                                  asset: 'assets/images/email verification.png',
-                                  title: 'Email',
-                                  title2: 'Verification',
-                                  buttonColor: Color(0xffffd7d7),
-                                  buttonText: 'Pending',
-                                  buttonIcon: Icons.alarm,
-                                  buttonWidgetColor: Color(0xfffb6869),
+                                InkWell(
+                                  onTap: () {
+                                  emailVerified == true ? null :  Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const VerifyEmailScreen(),
+                                        ));
+                                  },
+                                  child:  DetailCard(
+                                    scale: .8,
+                                    asset:
+                                        'assets/images/email verification.png',
+                                    title: 'Email',
+                                    title2: 'Verification',
+                                    buttonColor: emailVerified == true
+                                      ? const Color(0xffd6ecdf)
+                                      : const Color(0xffffd7d7),
+                                    buttonText: emailVerified == true ? 'Done': 'Pending',
+                                    buttonIcon: emailVerified == 'true'
+                                      ? Icons.check_circle
+                                      : Icons.alarm,
+                                    buttonWidgetColor: emailVerified == 'true'
+                                      ? const Color(0xff40a366)
+                                      : const Color(0xfffb6869),
+                                  ),
                                 ),
                                 DetailCard(
                                   scale: .58,

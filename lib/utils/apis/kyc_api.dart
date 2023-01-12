@@ -8,6 +8,7 @@ import 'package:nextschool/screens/frontseat/agent_onboarding/upload_bank_detail
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_personal_information/onboard_personal_data_screen.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/verify_account.dart';
 import 'package:nextschool/utils/apis/api_list.dart';
+import 'package:nextschool/utils/model/kyc_status_model.dart';
 
 import '../../controller/kyc_step_model.dart';
 import '../../screens/frontseat/agent_onboarding/verify_email_screen.dart';
@@ -73,9 +74,24 @@ class KycApi {
     );
     if (response.statusCode == 200) {
       log('success');
-
+      KycApi.kycStatus();
     } else {
       log('heyda');
+    }
+    //combine data and extraData into one map
+  }
+
+  static getEmail() async {
+    var token = await Utils.getStringValue('token');
+    Dio dio = Dio(BaseOptions(headers: Utils.setHeader(token!)));
+    final response = await dio.get(
+      FrontSeatApi.getEmail,
+    );
+    if (response.statusCode == 200) {
+      Utils.showToast('The OTP has been sent to signup email of the user');
+    } else {
+      Utils.showToast(
+          'Your signup email is invalid, please contact with administrator');
     }
     //combine data and extraData into one map
   }
@@ -94,15 +110,46 @@ class KycApi {
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
-        Utils.showToast('Phone Number verified successfully');
+        Utils.showToast('Phone No. verified successfully');
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BottomBar(),
+            ));
+      } else if (response.statusCode == 404) {
+        Utils.showToast(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      log(e.toString());
+      Utils.showToast('Invalid OTP');
+      return e.toString();
+    }
+
+    //combine data and extraData into one map
+  }
+
+  static emailVerified(Map<String, dynamic> data, BuildContext context) async {
+    FormData formData = FormData.fromMap(data);
+    var token = await Utils.getStringValue('token');
+    try {
+      Response response;
+      Dio dio = Dio(BaseOptions(headers: Utils.setHeader(token!)
+          // contentType: 'application/json',
+          ));
+      response = await dio.post(
+        FrontSeatApi.emailverified,
+        data: formData,
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        Utils.showToast('Email verified successfully');
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => const VerifyEmailScreen(),
             ));
       } else if (response.statusCode == 404) {
-        Utils.showToast(
-            response.statusMessage.toString());
+        Utils.showToast(response.statusMessage.toString());
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -111,13 +158,8 @@ class KycApi {
       }
     } on DioError catch (e) {
       log(e.toString());
-      Utils.showToast(
-          e.message.toString());
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const VerifyEmailScreen(),
-          ));
+      Utils.showToast('Invalid OTP');
+    
       return e.toString();
     }
 
@@ -144,7 +186,7 @@ class KycApi {
         Utils.saveBooleanValue('isLogged', true);
         var id = response.data['user_data']['staffid'];
         Utils.saveStringValue('uid', id);
-        await kycStatus(id);
+        await kycStatus();
         await AgentStatus(id);
         Navigator.pushAndRemoveUntil(
             context!,
@@ -361,37 +403,35 @@ class KycApi {
     }
   }
 
-  static kycStatus(String id) async {
-    FormData formData = FormData.fromMap({'agent_id': id});
+  static kycStatus() async {
     Response response;
-    Dio dio = Dio(BaseOptions(
-      headers: {'authtoken': FrontSeatApi.apiKey},
-      contentType: 'application/json',
-    ));
+    var token = await Utils.getStringValue('token');
+    Dio dio = Dio(BaseOptions(headers: Utils.setHeader(token!)));
     try {
-      response = await dio.post(FrontSeatApi.kycStatus, data: formData);
+      response = await dio.get(FrontSeatApi.kycStatus);
       if (response.statusCode == 200) {
-        log(response.data.toString());
-        var data = response.data['user_data'];
+        print(response.data);
+        var userData = KycStatusModel.fromJson(response.data);
         // print(data);
-        var govtIdUploaded = data['govtIdUploaded'];
-        var personalInformationUpdated = data['personalInformationUpdated'];
-        var profileUpdated = data['profileUpdated'];
-        var bankDetails = data['banking_document'];
-        if (bankDetails == 'true') {
+        var govtIdUploaded = userData.data!.agentKYCDetails!.govtIdUploaded;
+        var personalInformationUpdated =
+            userData.data!.agentKYCDetails!.personalInformationUpdated;
+        var profileUpdated = userData.data!.agentKYCDetails!.profileUpdated;
+        var bankDetails = userData.data!.agentKYCDetails!.bankingDocument;
+        if (bankDetails == true) {
           kycStepModelController.bankDetailsValue = true;
           kycStepModelController.allStepsCompletedValue = true;
         }
-        if (govtIdUploaded == 'true') {
+        if (govtIdUploaded == true) {
           kycStepModelController.govtIdUploadedValue = true;
         }
-        if (personalInformationUpdated == 'true') {
+        if (personalInformationUpdated == true) {
           kycStepModelController.personalInformationUpdatedValue = true;
         }
-        if (profileUpdated == 'true') {
+        if (profileUpdated == true) {
           kycStepModelController.selfieUpdatedValue = true;
         }
-        return data;
+        return userData;
       } else {
         debugPrint('Error Encountered : ${response.data}');
       }

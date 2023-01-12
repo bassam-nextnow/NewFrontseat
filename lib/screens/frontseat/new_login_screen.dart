@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:nextschool/screens/frontseat/new_register_screen.dart';
 import 'package:nextschool/screens/frontseat/reset_password_screen.dart';
 import 'package:nextschool/utils/Utils.dart';
+import 'package:nextschool/utils/apis/kyc_api.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -361,6 +362,7 @@ class _LoginFrontSeatState extends State<LoginFrontSeat> {
       controller.isLogged = true;
       schoolUrl = FrontSeatApi.base;
       Utils.showToast('Successfully logged in');
+      await KycApi.kycStatus();
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
