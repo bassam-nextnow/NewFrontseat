@@ -474,6 +474,7 @@ class _BankDetailsState extends State<BankDetails> {
                             TxtField(
                               hint: 'Account Number*',
                               controller: bankAccountNumberController,
+                              type: TextInputType.number,
                               formatter: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 FilteringTextInputFormatter.singleLineFormatter
@@ -607,6 +608,9 @@ class _BankDetailsState extends State<BankDetails> {
                           ],
                         ),
                       ),
+                      const SizedBox(
+                        height: 300,
+                      )
                     ],
                   ),
                 ),

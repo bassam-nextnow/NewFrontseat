@@ -82,10 +82,12 @@ class _OnboardPersonalInformationState
     super.initState();
     if (kycStepModelController.isEditableValue) {
       // selectedTitle = widget.data!.data!.agentDetails!.first.title;
-      firstNameController.text = widget.data!.data!.agentDetails!.firstName ?? '';
+      firstNameController.text =
+          widget.data!.data!.agentDetails!.firstName ?? '';
       // middleNameController.text = widget.data!.data!.agentDetails!.first.middleName ?? '';
       lastNameController.text = widget.data!.data!.agentDetails!.lastName ?? '';
-      phoneNumberController.text = widget.data!.data!.agentDetails!.applicationPhone ?? '';
+      phoneNumberController.text =
+          widget.data!.data!.agentDetails!.applicationPhone ?? '';
       emailController.text = widget.data!.data!.agentDetails!.email ?? '';
       // selectedGender = widget.data!.data!.agentDetails!.genderId;
       selectedMaritalStatus = widget.data!.data!.agentDetails!.maritalStatus;
@@ -102,9 +104,12 @@ class _OnboardPersonalInformationState
           widget.data!.data!.agentDetails!.residentialPostalCode ?? '';
       selectedResidentialProvince =
           widget.data!.data!.agentDetails!.residentialprovince ?? '';
-      postalAddressController.text = widget.data!.data!.agentDetails!.postalAddress ?? '';
-      postalCityController.text = widget.data!.data!.agentDetails!.postalCity ?? '';
-      postalPostalCodeController.text = widget.data!.data!.agentDetails!.postalPostalCode ?? '';
+      postalAddressController.text =
+          widget.data!.data!.agentDetails!.postalAddress ?? '';
+      postalCityController.text =
+          widget.data!.data!.agentDetails!.postalCity ?? '';
+      postalPostalCodeController.text =
+          widget.data!.data!.agentDetails!.postalPostalCode ?? '';
       selectedPostalProvince = widget.data!.data!.agentDetails!.postalprovince;
       selectedEContactRelationship =
           widget.data!.data!.agentDetails!.accHolderRelationship;
@@ -328,10 +333,11 @@ class _OnboardPersonalInformationState
                               FilteringTextInputFormatter.digitsOnly,
                               LengthLimitingTextInputFormatter(10),
                             ],
-                           validator: (value) {
+                            validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Phone Number is required';
-                              } else if (value.length != 10||value[0] != '0') {
+                              } else if (value.length != 10 ||
+                                  value[0] != '0') {
                                 return 'Phone number should be 10 digits starting with 0';
                               }
                               return null;
@@ -1064,11 +1070,7 @@ class _OnboardPersonalInformationState
                             hint: 'Income Tax Number',
                             controller: taxNumberController,
                           ),
-                          Utils.sizedBoxHeight(20),
-                          TxtField(
-                            hint: 'Passport Number',
-                            controller: passportNumberController,
-                          ),
+
                           Utils.sizedBoxHeight(20),
                           Utils.sizedBoxHeight(20),
                           //make a section seperator title
@@ -1666,10 +1668,11 @@ class _OnboardPersonalInformationState
                               FilteringTextInputFormatter.digitsOnly,
                               LengthLimitingTextInputFormatter(10),
                             ],
-                           validator: (value) {
+                            validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Emergency mobile is required';
-                              } else if (value.length != 10||value[0] != '0') {
+                              } else if (value.length != 10 ||
+                                  value[0] != '0') {
                                 return 'Phone number should be 10 digits starting with 0';
                               }
                               return null;

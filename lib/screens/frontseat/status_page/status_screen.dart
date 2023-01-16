@@ -27,7 +27,7 @@ class _CustomSidebarState extends State<CustomSidebar> {
   String? email;
   bool? mobileVerified;
   bool? uploadDocuments;
- bool? emailVerified;
+  bool? emailVerified;
   String? status;
   var image;
   var id;
@@ -73,7 +73,7 @@ class _CustomSidebarState extends State<CustomSidebar> {
                           emailVerified = data.emailVerifiedAt;
                           mobileVerified = data.mobileVerified;
                           uploadDocuments = data.bankingDocument;
-                          // status = data.activeStatus.toString();
+                          status = data.agentStatus;
                         }
                         return Column(
                           children: [
@@ -136,16 +136,16 @@ class _CustomSidebarState extends State<CustomSidebar> {
                                   asset: 'assets/images/upload documents.png',
                                   title: 'Upload',
                                   title2: 'Documents',
-                                  buttonColor: uploadDocuments == 'true'
+                                  buttonColor: uploadDocuments == true
                                       ? const Color(0xffd6ecdf)
                                       : const Color(0xffffd7d7),
-                                  buttonText: uploadDocuments == 'true'
+                                  buttonText: uploadDocuments == true
                                       ? 'Done'
                                       : 'Pending',
-                                  buttonIcon: uploadDocuments == 'true'
+                                  buttonIcon: uploadDocuments == true
                                       ? Icons.check_circle
                                       : Icons.alarm,
-                                  buttonWidgetColor: uploadDocuments == 'true'
+                                  buttonWidgetColor: uploadDocuments == true
                                       ? const Color(0xff40a366)
                                       : const Color(0xfffb6869),
                                 ),
@@ -156,7 +156,7 @@ class _CustomSidebarState extends State<CustomSidebar> {
                                   title2: 'Status',
                                   buttonColor: status == 'Active'
                                       ? const Color(0xffd6ecdf)
-                                      : status == 'Inreview'
+                                      : status == 'Submitted'
                                           ? const Color.fromARGB(
                                               228, 255, 220, 114)
                                           : const Color(0xffffd7d7),
@@ -174,7 +174,7 @@ class _CustomSidebarState extends State<CustomSidebar> {
                                       : Icons.alarm,
                                   buttonWidgetColor: status == 'Active'
                                       ? const Color(0xff40a366)
-                                      : status == 'Inreview'
+                                      : status == 'Submitted'
                                           ? const Color.fromARGB(
                                               255, 200, 150, 0)
                                           : const Color(0xfffb6869),
@@ -187,29 +187,33 @@ class _CustomSidebarState extends State<CustomSidebar> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                  emailVerified == true ? null :  Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const VerifyEmailScreen(),
-                                        ));
+                                    emailVerified == true
+                                        ? null
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const VerifyEmailScreen(),
+                                            ));
                                   },
-                                  child:  DetailCard(
+                                  child: DetailCard(
                                     scale: .8,
                                     asset:
                                         'assets/images/email verification.png',
                                     title: 'Email',
                                     title2: 'Verification',
                                     buttonColor: emailVerified == true
-                                      ? const Color(0xffd6ecdf)
-                                      : const Color(0xffffd7d7),
-                                    buttonText: emailVerified == true ? 'Done': 'Pending',
-                                    buttonIcon: emailVerified == 'true'
-                                      ? Icons.check_circle
-                                      : Icons.alarm,
-                                    buttonWidgetColor: emailVerified == 'true'
-                                      ? const Color(0xff40a366)
-                                      : const Color(0xfffb6869),
+                                        ? const Color(0xffd6ecdf)
+                                        : const Color(0xffffd7d7),
+                                    buttonText: emailVerified == true
+                                        ? 'Done'
+                                        : 'Pending',
+                                    buttonIcon: emailVerified == true
+                                        ? Icons.check_circle
+                                        : Icons.alarm,
+                                    buttonWidgetColor: emailVerified == true
+                                        ? const Color(0xff40a366)
+                                        : const Color(0xfffb6869),
                                   ),
                                 ),
                                 DetailCard(
@@ -217,16 +221,16 @@ class _CustomSidebarState extends State<CustomSidebar> {
                                   asset: 'assets/images/phone verification.png',
                                   title: 'Phone',
                                   title2: 'Verification',
-                                  buttonColor: mobileVerified == 'true'
+                                  buttonColor: mobileVerified == true
                                       ? const Color(0xffd6ecdf)
                                       : const Color(0xffffd7d7),
-                                  buttonText: mobileVerified == 'true'
+                                  buttonText: mobileVerified == true
                                       ? 'Done'
                                       : 'Pending',
-                                  buttonIcon: mobileVerified == 'true'
+                                  buttonIcon: mobileVerified == true
                                       ? Icons.check_circle
                                       : Icons.alarm,
-                                  buttonWidgetColor: mobileVerified == 'true'
+                                  buttonWidgetColor: mobileVerified == true
                                       ? const Color(0xff40a366)
                                       : const Color(0xfffb6869),
                                 ),

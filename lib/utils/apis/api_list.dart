@@ -9,7 +9,7 @@ class FrontSeatApi {
   static const String resetPass = '$base/api/agentResetPassword';
   static const String getOtp = '$base/api/phoneVerificationRequest';
     static const String getEmail = '$base/api/emailVerificationRequest';
-  static const String mpobileverified = '$base/api/api/phoneVerificationSave';
+  static const String mpobileverified = '$base/api/phoneVerificationSave';
     static const String emailverified = '$base/api/emailVerificationSave';
   static const String onboardAgent = '$base/api/agentUpdate';
   static const String kycStatus = '$base/api/agentKYC';
