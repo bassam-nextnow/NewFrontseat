@@ -83,26 +83,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                            onPressed: () async {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const BottomBar()),
-                                  (Route<dynamic> route) => route is BottomBar);
-                            },
-                            child: const Text(
-                              'Next',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black54,
-                                decorationStyle: TextDecorationStyle.solid,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                          TextButton(
                             onPressed: () {
                               Navigator.pushAndRemoveUntil(
                                   context,

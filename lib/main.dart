@@ -27,7 +27,6 @@ import 'package:nextschool/utils/Utils.dart';
 import 'package:nextschool/utils/theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sizer/sizer.dart';
-import 'package:wiredash/wiredash.dart';
 
 class MyHttpoverrides extends HttpOverrides {
   @override
@@ -244,52 +243,42 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
 
-    return Wiredash(
-      projectId: 'nextschool-ectr51x',
-      secret: 'g1lL7lvelOPKRpT--6F0rbuc3VUHrocW',
-      navigatorKey: _navigatorKey,
-      child: WillPopScope(
-        onWillPop: onWillPop,
-        child: ScreenUtilInit(
-          splitScreenMode: true,
-          builder: (context, child) => GetMaterialApp(
-            theme: ThemeData(
-              appBarTheme: const AppBarTheme(
-                color: Colors.transparent,
-                elevation: 0,
-                iconTheme: IconThemeData(color: Colors.black),
-                systemOverlayStyle: SystemUiOverlayStyle.dark,
-              ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => UploadSelfieBloc()),
+        BlocProvider(create: (context) => UploadPersonalInformationBloc()),
+        BlocProvider(create: (context) => UploadGovtIdBloc()),
+        BlocProvider(create: (context) => UploadBankDetailsBloc()),
+        BlocProvider(create: (context) => ContractBloc()),
+      ],
+      child: ScreenUtilInit(
+        splitScreenMode: true,
+        builder: (context, child) => GetMaterialApp(
+          theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+              color: Colors.transparent,
+              elevation: 0,
+              iconTheme: IconThemeData(color: Colors.black),
+              systemOverlayStyle: SystemUiOverlayStyle.dark,
             ),
-            debugShowCheckedModeBanner: false,
-            home: Sizer(builder: (context, orientation, deviceType) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(create: (context) => UploadSelfieBloc()),
-                  BlocProvider(
-                      create: (context) => UploadPersonalInformationBloc()),
-                  BlocProvider(create: (context) => UploadGovtIdBloc()),
-                  BlocProvider(create: (context) => UploadBankDetailsBloc()),
-                  BlocProvider(create: (context) => ContractBloc())
-                ],
-                child: MaterialApp(
-                  themeMode: ThemeMode.light,
-                  builder: (context, child) {
-                    return MediaQuery(
-                      child: child!,
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    );
-                  },
-                  title: 'Frontseat',
-                  navigatorKey: _navigatorKey,
-                  debugShowCheckedModeBanner: false,
-                  theme: basicTheme(),
-                  home: widget.isLogged ? const BottomBar() : widget.homeWidget,
-                ),
-              );
-            }),
           ),
+          debugShowCheckedModeBanner: false,
+          home: Sizer(builder: (context, orientation, deviceType) {
+            return MaterialApp(
+              themeMode: ThemeMode.light,
+              builder: (context, child) {
+                return MediaQuery(
+                  child: child!,
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                );
+              },
+              title: 'Frontseat',
+              navigatorKey: _navigatorKey,
+              debugShowCheckedModeBanner: false,
+              theme: basicTheme(),
+              home: widget.isLogged ? const BottomBar() : widget.homeWidget,
+            );
+          }),
         ),
       ),
     );

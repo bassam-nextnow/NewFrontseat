@@ -11,7 +11,6 @@ import 'package:nextschool/utils/apis/api_list.dart';
 import 'package:nextschool/utils/model/kyc_status_model.dart';
 
 import '../../controller/kyc_step_model.dart';
-import '../../screens/frontseat/agent_onboarding/verify_email_screen.dart';
 import '../../screens/frontseat/nav_bar.dart';
 import '../../utils/utils.dart';
 import '../model/frontseat_user_detail_model.dart';
@@ -82,6 +81,7 @@ class KycApi {
   }
 
   static getEmail() async {
+    log('api called');
     var token = await Utils.getStringValue('token');
     Dio dio = Dio(BaseOptions(headers: Utils.setHeader(token!)));
     final response = await dio.get(
@@ -105,7 +105,7 @@ class KycApi {
           // contentType: 'application/json',
           ));
       response = await dio.post(
-        FrontSeatApi.mpobileverified,
+        FrontSeatApi.mobileverified,
         data: formData,
       );
       log(response.statusCode.toString());
@@ -143,23 +143,18 @@ class KycApi {
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         Utils.showToast('Email verified successfully');
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => const VerifyEmailScreen(),
-            ));
+                builder: (BuildContext context) => const BottomBar()),
+            (Route<dynamic> route) => route is BottomBar);
       } else if (response.statusCode == 404) {
         Utils.showToast(response.statusMessage.toString());
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const VerifyEmailScreen(),
-            ));
       }
     } on DioError catch (e) {
       log(e.toString());
       Utils.showToast('Invalid OTP');
-    
+
       return e.toString();
     }
 

@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   void initState() {
-    controller = TabController(length: 6, vsync: this);
+    controller = TabController(length: 7, vsync: this);
     setState(() {
       userdata = KycApi.getUserDetails();
     });
@@ -173,8 +173,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   Tab(text: 'Address'),
                                   Tab(text: 'Emergency Contact'),
                                   Tab(text: 'Bank Account Details'),
+                                  Tab(text: 'Work Details'),
+                                  Tab(text: 'Identity Verification Details'),
                                   Tab(text: 'Supporting Documents'),
-                                  Tab(text: 'Others'),
                                 ],
                               ),
                             ],
@@ -194,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     if (snapshot.hasData) {
                       var data = snapshot.data!.data!.agentDetails!;
                       firstName = data.firstName;
-                      // middleName = data.middleName;
+                      middleName = data.middleName;
                       lastName = data.lastName;
                       passportNumber = data.passportNumber;
                       phoneNumber = data.applicationPhone;
@@ -276,6 +277,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         child: Column(
                                           children: [
                                             DetailField(
+                                                icon: Icons.accessibility_new,
+                                                title: 'Title',
+                                                value: data.title ?? ''),
+                                            DetailField(
                                                 icon: Icons.person,
                                                 title: 'First Name',
                                                 value: firstName ?? ''),
@@ -305,17 +310,25 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                 title: 'Gender',
                                                 value: gender ?? ''),
                                             DetailField(
+                                                icon: Icons.place_outlined,
+                                                title: 'Nationality',
+                                                value: nationality ?? ''),
+                                            DetailField(
                                                 icon: Icons.person_pin,
                                                 title: 'Martial Status',
                                                 value: maritalStatus ?? ''),
+                                            DetailField(
+                                                icon: Icons.place,
+                                                title: 'Country of Birth',
+                                                value: country ?? ''),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   bottom: 10),
                                               child: DetailField(
-                                                  icon:
-                                                      Icons.person_pin_outlined,
-                                                  title: 'Equity Group',
-                                                  value: equityGroup ?? ''),
+                                                  icon: Icons
+                                                      .card_membership_sharp,
+                                                  title: 'Disability',
+                                                  value: data.disability ?? ''),
                                             ),
                                           ],
                                         ),
@@ -467,6 +480,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         child: Column(
                                           children: [
                                             DetailField(
+                                                icon: Icons.group,
+                                                title: 'Relation',
+                                                value:
+                                                    data.emergencyContactRelation ??
+                                                        ''),
+                                            DetailField(
                                                 icon: Icons.person,
                                                 title: 'Name',
                                                 value:
@@ -544,7 +563,123 @@ class _ProfileScreenState extends State<ProfileScreen>
                                             DetailField(
                                                 icon: Icons.phonelink,
                                                 title: 'Branch Name',
-                                                value: branchName ?? ''),
+                                                value:
+                                                    data.bankBranchName ?? ''),
+                                            DetailField(
+                                                icon: Icons.phonelink,
+                                                title: 'Branch Code',
+                                                value:
+                                                    data.bankBranchCode ?? ''),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            ListView(
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  elevation: 1,
+                                  shadowColor: Colors.grey,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        color: const Color(0xffe3e3e3),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextWidget(
+                                            txt: 'Work Details',
+                                            clr: Colors.black,
+                                            size: 18,
+                                            weight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Column(
+                                          children: [
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Equity Group',
+                                                value: equityGroup ?? ''),
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Income Tax',
+                                                value: data.incomeTax ?? ''),
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Preferred Work Address',
+                                                value: data.workLocation ?? ''),
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Work City',
+                                                value: data.workCity ?? ''),
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Work Province',
+                                                value: data.workProvince ?? ''),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            ListView(
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  elevation: 1,
+                                  shadowColor: Colors.grey,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        color: const Color(0xffe3e3e3),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextWidget(
+                                            txt:
+                                                'Identity Verification Details',
+                                            clr: Colors.black,
+                                            size: 18,
+                                            weight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Column(
+                                          children: [
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Identity Document Type',
+                                                value: idType ?? ''),
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Identity Document No.',
+                                                value: idNo ?? ''),
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Country Of Document',
+                                                value: data.countryName ?? ''),
+                                            DetailField(
+                                                icon: Icons.person_pin_outlined,
+                                                title: 'Driving License ID',
+                                                value: data.drivingLicenseId ??
+                                                    ''),
                                           ],
                                         ),
                                       )
@@ -663,62 +798,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                 );
                               },
-                            ),
-                            ListView(
-                              children: [
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  elevation: 1,
-                                  shadowColor: Colors.grey,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: double.infinity,
-                                        color: const Color(0xffe3e3e3),
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: TextWidget(
-                                            txt: 'Others',
-                                            clr: Colors.black,
-                                            size: 18,
-                                            weight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Column(
-                                          children: [
-                                            DetailField(
-                                                icon: Icons.place_outlined,
-                                                title: 'Nationality',
-                                                value: nationality ?? ''),
-                                            DetailField(
-                                                icon: Icons.place,
-                                                title: 'Country of Birth',
-                                                value: country ?? ''),
-                                            DetailField(
-                                                icon: Icons.phone,
-                                                title: 'Identity Type',
-                                                value: idType ?? ''),
-                                            DetailField(
-                                                icon: Icons.document_scanner,
-                                                title: 'Identity No.',
-                                                value: idNo ?? ''),
-                                            DetailField(
-                                                icon: Icons.document_scanner,
-                                                title: 'Driving Licence No.',
-                                                value: licenceNo ?? ''),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
                             ),
                           ]),
                         ),

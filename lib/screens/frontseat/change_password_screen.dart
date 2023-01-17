@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../utils/Utils.dart';
 import '../../utils/apis/api_list.dart';
+import '../../utils/widget/textwidget.dart';
 import '../../utils/widget/txtbox.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -45,6 +46,12 @@ class _ResetPasswordState extends State<ResetPassword> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
+                const TextWidget(
+                  txt: 'Reset Your Password',
+                  size: 22,
+                  weight: FontWeight.bold,
+                ),
+                const SizedBox(height: 60),
                 TxtField(
                   hint: 'Current Password',
                   controller: oldpasswordcontroller,

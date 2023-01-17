@@ -41,19 +41,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               children: [
                 const SizedBox(height: 60),
                 const TextWidget(
-                  txt: 'Reset your Password',
+                  txt: 'Forgot Password',
                   size: 22,
                   weight: FontWeight.bold,
                 ),
-                const SizedBox(height: 30),
-                const TextWidget(
-                  txt: 'Enter the email \n address linked to your \n account.',
-                  size: 18,
-                  align: TextAlign.center,
-                ),
                 const SizedBox(height: 50),
                 TxtField(
-                  hint: 'Registered Mobile No.',
+                  hint: 'Registered Mobile No.*',
                   controller: phonecontroller,
                   formatter: [
                     LengthLimitingTextInputFormatter(10),
@@ -71,7 +65,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   },
                 ),
                 TxtField(
-                  hint: 'Email address',
+                  hint: 'Registered Email Address*',
                   controller: emailcontroller,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -97,7 +91,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         _btnController.reset();
                       }
                     },
-                    child: const Text('Send link',
+                    child: const Text('Send Password',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),
@@ -121,7 +115,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     if (response.statusCode == 200) {
       log(response.body);
       Utils.showToast(
-          'Reset password email link has been sent to your registered mobile no.');
+          'password has been sent to your registered mobile no.');
       Navigator.pop(context);
       _btnController.reset();
     } else {

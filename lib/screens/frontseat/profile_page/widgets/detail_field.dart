@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../utils/widget/textwidget.dart';
 
@@ -29,11 +30,14 @@ class DetailField extends StatelessWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                    SizedBox(
+                      width: 35.w,
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ],
