@@ -26,7 +26,10 @@ class DetailField extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: Row(
                   children: [
-                    Icon(icon),
+                    Icon(
+                      icon,
+                      color: Colors.black,
+                    ),
                     const SizedBox(
                       width: 5,
                     ),
