@@ -94,7 +94,12 @@ class AgentDetails {
   final String? bankAccountNumber;
   final String? bankAccountHolderName;
   final String? agentStatus;
-  final dynamic agentStatusComments;
+  final String? agentStatusComments;
+  final String? drivingLicenceFrontImage;
+  final String? drivingLicenceRearImage;
+  final String? nationalIdFrontImage;
+  final String? nationalIdRearImage;
+  final String? bankStatement;
   final List<AgentDocArray>? agentDocArray;
 
   AgentDetails({
@@ -156,6 +161,11 @@ class AgentDetails {
     this.bankAccountHolderName,
     this.agentStatus,
     this.agentStatusComments,
+    this.drivingLicenceFrontImage,
+    this.drivingLicenceRearImage,
+    this.nationalIdFrontImage,
+    this.nationalIdRearImage,
+    this.bankStatement,
     this.agentDocArray,
   });
 
@@ -217,7 +227,12 @@ class AgentDetails {
       bankAccountNumber = json['bankAccountNumber'] as String?,
       bankAccountHolderName = json['bankAccountHolderName'] as String?,
       agentStatus = json['agent_status'] as String?,
-      agentStatusComments = json['agent_status_comments'],
+      agentStatusComments = json['agent_status_comments'] as String?,
+      drivingLicenceFrontImage = json['drivingLicenceFrontImage'] as String?,
+      drivingLicenceRearImage = json['drivingLicenceRearImage'] as String?,
+      nationalIdFrontImage = json['nationalIdFrontImage'] as String?,
+      nationalIdRearImage = json['nationalIdRearImage'] as String?,
+      bankStatement = json['bankStatement'] as String?,
       agentDocArray = (json['AgentDocArray'] as List?)?.map((dynamic e) => AgentDocArray.fromJson(e as Map<String,dynamic>)).toList();
 
   Map<String, dynamic> toJson() => {
@@ -279,6 +294,11 @@ class AgentDetails {
     'bankAccountHolderName' : bankAccountHolderName,
     'agent_status' : agentStatus,
     'agent_status_comments' : agentStatusComments,
+    'drivingLicenceFrontImage' : drivingLicenceFrontImage,
+    'drivingLicenceRearImage' : drivingLicenceRearImage,
+    'nationalIdFrontImage' : nationalIdFrontImage,
+    'nationalIdRearImage' : nationalIdRearImage,
+    'bankStatement' : bankStatement,
     'AgentDocArray' : agentDocArray?.map((e) => e.toJson()).toList()
   };
 }

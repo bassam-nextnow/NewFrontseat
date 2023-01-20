@@ -75,21 +75,23 @@ class _OnboardPersonalInformationState
   final TextEditingController emergencyContactNumberController =
       TextEditingController();
   final TextEditingController workLocationController = TextEditingController();
+  final TextEditingController workCityController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     if (kycStepModelController.isEditableValue) {
-      // selectedTitle = widget.data!.data!.agentDetails!.first.title;
+      selectedTitle = widget.data!.data!.agentDetails!.title;
       firstNameController.text =
           widget.data!.data!.agentDetails!.firstName ?? '';
-      // middleNameController.text = widget.data!.data!.agentDetails!.first.middleName ?? '';
+      middleNameController.text =
+          widget.data!.data!.agentDetails!.middleName ?? '';
       lastNameController.text = widget.data!.data!.agentDetails!.lastName ?? '';
       phoneNumberController.text =
           widget.data!.data!.agentDetails!.applicationPhone ?? '';
       emailController.text = widget.data!.data!.agentDetails!.email ?? '';
-      // selectedGender = widget.data!.data!.agentDetails!.genderId;
+      selectedGender = widget.data!.data!.agentDetails!.gender;
       selectedMaritalStatus = widget.data!.data!.agentDetails!.maritalStatus;
       selectedNationality = widget.data!.data!.agentDetails!.nationality;
       selectedCountryofBirth = widget.data!.data!.agentDetails!.countryOfBirth;
@@ -112,13 +114,19 @@ class _OnboardPersonalInformationState
           widget.data!.data!.agentDetails!.postalPostalCode ?? '';
       selectedPostalProvince = widget.data!.data!.agentDetails!.postalprovince;
       selectedEContactRelationship =
-          widget.data!.data!.agentDetails!.accHolderRelationship;
+          widget.data!.data!.agentDetails!.emergencyContactRelation;
       emergencyContactFullNameController.text =
           widget.data!.data!.agentDetails!.emergencyContactFullName ?? '';
       emergencyContactNumberController.text =
           widget.data!.data!.agentDetails!.emergencyContactNumber ?? '';
       alternativeNoController.text =
           widget.data!.data!.agentDetails!.emergencyAlternativeNumber ?? '';
+      workLocationController.text =
+          widget.data!.data!.agentDetails!.workLocation ?? '';
+      selectedWorkLocation = widget.data!.data!.agentDetails!.workCity ?? '';
+      workCityController.text = widget.data!.data!.agentDetails!.workCity ?? '';
+      selectedWorkProvince =
+          widget.data!.data!.agentDetails!.workProvince ?? '';
     } else {
       null;
     }
@@ -1742,6 +1750,7 @@ class _OnboardPersonalInformationState
                                 height: 0.5.h,
                               ),
                               SearchField<String>(
+                                controller: workCityController,
                                 autoCorrect: true,
                                 suggestions: cities
                                     .map((e) => SearchFieldListItem(e, item: e))
@@ -1924,6 +1933,10 @@ class _OnboardPersonalInformationState
                                     color: Colors.red,
                                     controller: _btnController,
                                     onPressed: () {
+                                      bool isEdit =
+                                          kycStepModelController.isEditableValue
+                                              ? true
+                                              : false;
                                       if (_formKey.currentState!.validate()) {
                                         if (selectedTitle != null &&
                                             selectedGender != null &&
@@ -1938,6 +1951,14 @@ class _OnboardPersonalInformationState
                                             selectedPostalProvince != null &&
                                             selectedEContactRelationship !=
                                                 null) {
+                                          if (selectedGender == 'Male') {
+                                            genderId = 1;
+                                          } else if (selectedGender ==
+                                              'Female') {
+                                            genderId = 2;
+                                          } else {
+                                            genderId = 3;
+                                          }
                                           _formKey.currentState!.save();
                                           context.read<UploadPersonalInformationBloc>().add(UploadPersonalDataEvent(
                                               context: context,
@@ -1998,7 +2019,9 @@ class _OnboardPersonalInformationState
                                                       .text,
                                               emergencyAlternativeContactNumber:
                                                   alternativeNoController
-                                                      .text));
+                                                      .text,
+                                                      data: widget.data,
+                                                      isEdit: isEdit));
                                         } else {
                                           _btnController.reset();
                                           ScaffoldMessenger.of(context)

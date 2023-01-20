@@ -9,13 +9,14 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../utils/Utils.dart';
 import '../../../../utils/frontseat_constants.dart';
+import '../../../../utils/model/frontseat_user_detail_model.dart';
 import '../../../../utils/widget/textwidget.dart';
 import '../../../../utils/widget/txtbox.dart';
 import 'controller/upload_govt_id_bloc.dart';
 
 class GovtIdDetails extends StatefulWidget {
-  const GovtIdDetails({Key? key}) : super(key: key);
-
+  const GovtIdDetails({Key? key, this.data}) : super(key: key);
+  final UserDetailModel? data;
   @override
   State<GovtIdDetails> createState() => _GovtIdDetailsState();
 }
@@ -33,6 +34,20 @@ class _GovtIdDetailsState extends State<GovtIdDetails> {
   String? selectedCountry;
   String? documenttype;
   String? documentno;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.data != null) {
+      _selectedIdentityDocument =
+          widget.data!.data!.agentDetails!.documentType ?? '';
+      selectedCountry = widget.data!.data!.agentDetails!.countryName ?? '';
+      drivingLicensce.text =
+          widget.data!.data!.agentDetails!.drivingLicenseId ?? '';
+      rsaID.text = widget.data!.data!.agentDetails!.idNumber ?? '';
+      asylum.text = widget.data!.data!.agentDetails!.asylumDocNo ?? '';
+      passport.text = widget.data!.data!.agentDetails!.passportNo ?? '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -402,18 +417,28 @@ class _GovtIdDetailsState extends State<GovtIdDetails> {
                                             context
                                                 .read<UploadGovtIdBloc>()
                                                 .add(UploadGovtIdDetailsEvent(
+                                                  data: widget.data,
                                                     idDocument: rsaID.text,
-                                                    documentType: documenttype!,
+                                                    documentType:
+                                                        _selectedIdentityDocument!,
                                                     passport: passport.text,
                                                     country: selectedCountry,
                                                     asylum: asylum.text,
                                                     drivingLicense:
                                                         drivingLicensce.text));
+                                                        if(widget.data ==null){
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const GovtIdUploadScreen()));
+                                                        const GovtIdUploadScreen()));}else{
+                                                          
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                         GovtIdUploadScreen(data: widget.data,)));
+                                                        }
                                           } else {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(

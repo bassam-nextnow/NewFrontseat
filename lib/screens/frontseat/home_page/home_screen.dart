@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     KycApi.kycStatus();
-    // KycApi.AgentStatus(id);
+    KycApi.AgentStatus();
     //init settings for android
     var initializationSettingsAndroid =
         const AndroidInitializationSettings('@mipmap/ic_launcher');

@@ -8,11 +8,12 @@ class FrontSeatApi {
   static const String forgotPass = '$base/api/agentForgotPassword';
   static const String resetPass = '$base/api/agentResetPassword';
   static const String getOtp = '$base/api/phoneVerificationRequest';
-    static const String getEmail = '$base/api/emailVerificationRequest';
+  static const String getEmail = '$base/api/emailVerificationRequest';
   static const String mobileverified = '$base/api/phoneVerificationSave';
-    static const String emailverified = '$base/api/emailVerificationSave';
+  static const String emailverified = '$base/api/emailVerificationSave';
   static const String onboardAgent = '$base/api/agentUpdate';
   static const String kycStatus = '$base/api/agentKYC';
+  static const String agentStatus = '$base/api/agentStatus';
   static const String agentData = '$base/api/agentDetails';
   static const String checkInOut = '$baseUrl/timesheets/api/check_in_out';
   static const String acceptContract =

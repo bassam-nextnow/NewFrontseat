@@ -38,7 +38,7 @@ class _CustomSidebarState extends State<CustomSidebar> {
       setState(() {
         id = value;
         userdata = KycApi.getUserDetails();
-        // KycApi.AgentStatus(id);
+        KycApi.AgentStatus();
       });
     });
     super.initState();

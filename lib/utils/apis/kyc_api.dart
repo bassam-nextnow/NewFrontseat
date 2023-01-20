@@ -182,7 +182,7 @@ class KycApi {
         var id = response.data['user_data']['staffid'];
         Utils.saveStringValue('uid', id);
         await kycStatus();
-        await AgentStatus(id);
+        await AgentStatus();
         Navigator.pushAndRemoveUntil(
             context!,
             MaterialPageRoute(
@@ -295,8 +295,14 @@ class KycApi {
     //combine data and extraData into one map
   }
 
-  static uploadGovtId(int uid, String? dlFront, String? dlRear, String nidFront,
-      String nidRear, BuildContext context
+  static uploadGovtId(
+      int uid,
+      String? dlFront,
+      String? dlRear,
+      String? nidFront,
+      String? nidRear,
+      BuildContext context,
+      UserDetailModel? data
 
       // String bankStatement,
       ) async {
@@ -309,8 +315,10 @@ class KycApi {
           dlFront == null ? null : await MultipartFile.fromFile(dlFront),
       'drivingLicenceRearImage':
           dlRear == null ? null : await MultipartFile.fromFile(dlRear),
-      'nationiIIdFrontImage': await MultipartFile.fromFile(nidFront),
-      'nationiIIdRearImage': await MultipartFile.fromFile(nidRear),
+      'nationiIIdFrontImage':
+          nidFront == null ? null : await MultipartFile.fromFile(nidFront),
+      'nationiIIdRearImage':
+          nidRear == null ? null : await MultipartFile.fromFile(nidRear),
       // 'agent_signature': await MultipartFile.fromFile(signature),
       // 'bank_statement': await MultipartFile.fromFile(bankStatement),
     });
@@ -330,8 +338,17 @@ class KycApi {
         Utils.showToast('Documents uploaded successfully');
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const BankDetails()));
+        if (data == null) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const BankDetails()));
+        } else {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BankDetails(
+                        data: data,
+                      )));
+        }
       } else {
         Utils.showToast('Failed to load');
       }
@@ -367,9 +384,11 @@ class KycApi {
       'bankAccountHolderName': accountHolderName,
       'user_id': uid,
       'banking_document': true,
-      'bank_statement': await MultipartFile.fromFile(bankStatement),
+      'bank_statement': bankStatement == null
+          ? null
+          : await MultipartFile.fromFile(bankStatement),
     });
-
+    log('api invoked');
     Response response;
     Dio dio = Dio(BaseOptions(
       headers: {'Authorization': token},
@@ -459,25 +478,26 @@ class KycApi {
     return null;
   }
 
-  static Future<String?> AgentStatus(String id) async {
+  static Future<String?> AgentStatus() async {
     String? status;
     String? contracted;
     var comments;
-    FormData formData = FormData.fromMap({'agent_id': id});
+    var token = await Utils.getStringValue('token');
     Response response;
     Dio dio = Dio(BaseOptions(
-      headers: {'authtoken': FrontSeatApi.apiKey},
+      headers: {'Authorization': token},
       contentType: 'application/json',
     ));
     final KycStepModelController = getx.Get.put(KycStepModel());
     try {
-      response = await dio.post(FrontSeatApi.kycStatus, data: formData);
+      response = await dio.get(FrontSeatApi.agentStatus);
       if (response.statusCode == 200) {
-        var data = response.data['user_data'];
-        status = data['agent_status'];
-        contracted = data['contract_accept'];
+        log(response.data.toString());
+        var data = response.data['data']['AgentStatusDetails'];
+        status = data['latest_status'];
+        // contracted = data['contract_accept'];
 
-        comments = data['agent_status_comments'];
+        comments = data['latest_comment'];
         if (status == 'Rejected') {
           KycStepModelController.allStepsCompletedValue = false;
           KycStepModelController.isEditableValue = true;
