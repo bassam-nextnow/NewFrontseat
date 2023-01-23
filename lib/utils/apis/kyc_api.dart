@@ -482,6 +482,7 @@ class KycApi {
     String? status;
     String? contracted;
     var comments;
+    var reviewer;
     var token = await Utils.getStringValue('token');
     Response response;
     Dio dio = Dio(BaseOptions(
@@ -498,10 +499,12 @@ class KycApi {
         // contracted = data['contract_accept'];
 
         comments = data['latest_comment'];
+        reviewer = data['agent_under'];
         if (status == 'Rejected') {
           KycStepModelController.allStepsCompletedValue = false;
           KycStepModelController.isEditableValue = true;
           KycStepModelController.commentValue = comments;
+          KycStepModelController.reviewerValue = reviewer;
           // return comments;
         }
         if (status == 'Incontracting' && contracted == 'Yes') {

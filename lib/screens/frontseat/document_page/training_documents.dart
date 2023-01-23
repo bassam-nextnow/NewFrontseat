@@ -22,7 +22,11 @@ class _EbookScreenState extends State<EbookScreen> {
   late EbookList _ebooks;
   String? directory;
 
-  final List<String> titles = ['General', 'Induction', 'Code of Conduct'];
+  final List<String> titles = [
+    'MoMo Training Material',
+    'Induction',
+    'Code of Conduct'
+  ];
 
   List<Widget> _buildViewList() {
     return titles.map((language) {

@@ -88,11 +88,16 @@ class DetailCard extends StatelessWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    TextWidget(
-                      txt: buttonText.toUpperCase(),
-                      clr: buttonWidgetColor,
-                      size: 13,
-                      weight: FontWeight.bold,
+                    Flexible(
+                      child: Container(
+                        child: TextWidget(
+                          overflow: TextOverflow.clip,
+                          txt: buttonText.toUpperCase(),
+                          clr: buttonWidgetColor,
+                          size: 13,
+                          weight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),

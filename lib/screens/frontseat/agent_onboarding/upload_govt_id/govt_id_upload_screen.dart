@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../controller/kyc_step_model.dart';
 import '../../../../utils/Utils.dart';
 import '../../../../utils/model/frontseat_user_detail_model.dart';
@@ -373,8 +371,7 @@ class _GovtIdUploadScreenState extends State<GovtIdUploadScreen> {
                         ),
                         height: 200,
                         width: MediaQuery.of(context).size.width,
-                        child: drivingLicenseFrontImageUrl != null &&
-                                widget.data == null
+                        child: drivingLicenseFrontImageUrl != null
                             ? Image.file(File(drivingLicenseFrontImageUrl!))
                             : widget.data != null &&
                                     drivingLicenseFrontImage != ''
@@ -409,8 +406,7 @@ class _GovtIdUploadScreenState extends State<GovtIdUploadScreen> {
                         ),
                         height: 200,
                         width: MediaQuery.of(context).size.width,
-                        child: drivingLicenseRearImageUrl != null &&
-                                widget.data == null
+                        child: drivingLicenseRearImageUrl != null
                             ? Image.file(File(drivingLicenseRearImageUrl!))
                             : widget.data != null &&
                                     drivingLicenseRearImage != ''

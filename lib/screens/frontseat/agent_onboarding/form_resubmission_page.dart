@@ -7,6 +7,7 @@ import '../../../controller/kyc_step_model.dart';
 import '../../../utils/Utils.dart';
 import '../../../utils/apis/kyc_api.dart';
 import '../../../utils/widget/textwidget.dart';
+
 class FormReSubmissionScreen extends StatefulWidget {
   const FormReSubmissionScreen({Key? key}) : super(key: key);
 
@@ -101,7 +102,7 @@ class _FormReSubmissionScreenState extends State<FormReSubmissionScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TextWidget(
-                          txt: "Note :-",
+                          txt: 'Note :-',
                           weight: FontWeight.bold,
                           size: 16,
                           clr: Colors.black54,
@@ -111,6 +112,19 @@ class _FormReSubmissionScreenState extends State<FormReSubmissionScreen> {
                         ),
                         TextWidget(
                           txt: KycStepModelController.commentValue,
+                          clr: Colors.black54,
+                        ),
+                        const TextWidget(
+                          txt: 'Reviewed by :-',
+                          weight: FontWeight.bold,
+                          size: 16,
+                          clr: Colors.black54,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextWidget(
+                          txt: KycStepModelController.reviewerValue,
                           clr: Colors.black54,
                         )
                       ],
