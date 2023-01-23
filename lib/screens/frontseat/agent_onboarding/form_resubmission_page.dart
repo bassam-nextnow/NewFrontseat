@@ -102,7 +102,7 @@ class _FormReSubmissionScreenState extends State<FormReSubmissionScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TextWidget(
-                          txt: 'Note :-',
+                          txt: 'Comment :-',
                           weight: FontWeight.bold,
                           size: 16,
                           clr: Colors.black54,

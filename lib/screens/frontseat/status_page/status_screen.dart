@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nextschool/screens/frontseat/agent_onboarding/agent_contract/contract_screen.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/verify_email_screen.dart';
 import 'package:nextschool/screens/frontseat/change_password_screen.dart';
 import 'package:nextschool/screens/frontseat/status_page/widgets/detail_card.dart';
@@ -10,6 +12,9 @@ import '../../../utils/apis/kyc_api.dart';
 import '../../../utils/model/frontseat_user_detail_model.dart';
 import '../../../utils/widget/DetailFields.dart';
 import '../../../utils/widget/textwidget.dart';
+import '../agent_onboarding/form_resubmission_page.dart';
+import '../agent_onboarding/submitted_for_verification.dart';
+import '../agent_onboarding/verify_account.dart';
 import '../widgets/custom_appbar.dart';
 
 class CustomSidebar extends StatefulWidget {
@@ -149,35 +154,90 @@ class _CustomSidebarState extends State<CustomSidebar> {
                                       ? const Color(0xff40a366)
                                       : const Color(0xfffb6869),
                                 ),
-                                DetailCard(
-                                  scale: .8,
-                                  asset: 'assets/images/application status.png',
-                                  title: 'Application',
-                                  title2: 'Status',
-                                  buttonColor: status == 'Active'
-                                      ? const Color(0xffd6ecdf)
-                                      : status == 'Submitted'
-                                          ? const Color.fromARGB(
-                                              228, 255, 220, 114)
-                                          : const Color(0xffffd7d7),
-                                  buttonText: status == null
-                                      ? 'Incomplete'
-                                      : snapshot.hasData && status == 'new' ||
-                                              status == 'pending' ||
-                                              status == 'deactive'
-                                          ? 'Pending Review'
-                                          : status != null
-                                              ? status!
-                                              : 'Pending',
-                                  buttonIcon: status == 'Active'
-                                      ? Icons.check_circle
-                                      : Icons.alarm,
-                                  buttonWidgetColor: status == 'Active'
-                                      ? const Color(0xff40a366)
-                                      : status == 'Submitted'
-                                          ? const Color.fromARGB(
-                                              255, 200, 150, 0)
-                                          : const Color(0xfffb6869),
+                                InkWell(
+                                  onTap: () {
+                                    if (kycStepModelController
+                                            .allStepsCompletedValue &&
+                                        kycStepModelController
+                                            .inContractingValue &&
+                                        kycStepModelController
+                                            .contractedValue) {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const SubmittedForVerificationScreen(),
+                                        ),
+                                      );
+                                    } else if (kycStepModelController
+                                            .allStepsCompletedValue &&
+                                        kycStepModelController
+                                            .inContractingValue) {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                ContractScreen()),
+                                      );
+                                    } else if (kycStepModelController
+                                        .isEditableValue) {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const FormReSubmissionScreen(),
+                                        ),
+                                      );
+                                    } else if (kycStepModelController
+                                        .allStepsCompletedValue) {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const SubmittedForVerificationScreen(),
+                                        ),
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const VerificationScreen(),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: DetailCard(
+                                    scale: .8,
+                                    asset:
+                                        'assets/images/application status.png',
+                                    title: 'Application',
+                                    title2: 'Status',
+                                    buttonColor: status == 'Active'
+                                        ? const Color(0xffd6ecdf)
+                                        : status == 'Submitted'
+                                            ? const Color.fromARGB(
+                                                228, 255, 220, 114)
+                                            : const Color(0xffffd7d7),
+                                    buttonText: status == null
+                                        ? 'Incomplete'
+                                        : snapshot.hasData && status == 'new' ||
+                                                status == 'pending' ||
+                                                status == 'deactive'
+                                            ? 'Pending Review'
+                                            : status != null
+                                                ? status!
+                                                : 'Pending',
+                                    buttonIcon: status == 'Active'
+                                        ? Icons.check_circle
+                                        : Icons.alarm,
+                                    buttonWidgetColor: status == 'Active'
+                                        ? const Color(0xff40a366)
+                                        : status == 'Submitted'
+                                            ? const Color.fromARGB(
+                                                255, 200, 150, 0)
+                                            : const Color(0xfffb6869),
+                                  ),
                                 ),
                               ],
                             ),
