@@ -96,6 +96,7 @@ class DetailCard extends StatelessWidget {
                           clr: buttonWidgetColor,
                           size: 13,
                           weight: FontWeight.bold,
+                          align: TextAlign.center,
                         ),
                       ),
                     ),
