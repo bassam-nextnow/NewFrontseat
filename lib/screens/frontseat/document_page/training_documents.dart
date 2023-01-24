@@ -235,7 +235,6 @@ class _EbookScreenState extends State<EbookScreen> {
           ),
         ),
         body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
           children: [
             ..._buildViewList(),
           ],
