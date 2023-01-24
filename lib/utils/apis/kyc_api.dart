@@ -505,12 +505,23 @@ class KycApi {
           KycStepModelController.isEditableValue = true;
           KycStepModelController.commentValue = comments;
           KycStepModelController.reviewerValue = reviewer;
+          KycStepModelController.rejectedValue = false;
+          // return comments;
+        }
+        if (status == 'Rejected Outright') {
+          KycStepModelController.allStepsCompletedValue = false;
+          KycStepModelController.isEditableValue = true;
+          KycStepModelController.rejectedValue = true;
+          KycStepModelController.commentValue = comments;
+          KycStepModelController.reviewerValue = reviewer;
           // return comments;
         }
         if (status == 'Incontracting' && contracted == 'Yes') {
+          KycStepModelController.rejectedValue = false;
           KycStepModelController.contractedValue = true;
         } else if (status == 'Incontracting') {
           KycStepModelController.inContractingValue = true;
+          KycStepModelController.rejectedValue = false;
         }
       } else {
         debugPrint('Error Encountered : ${response.data}');

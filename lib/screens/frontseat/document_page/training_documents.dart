@@ -84,7 +84,7 @@ class _EbookScreenState extends State<EbookScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                book.title.titleCase,
+                                book.title,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
