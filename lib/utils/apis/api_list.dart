@@ -1,8 +1,8 @@
 class FrontSeatApi {
-  static const String baseUrl = 'https://nextone.co.za/frontseat_crm';
+  static const String baseUrl = 'https://frontseat.group';
   static const String apiKey =
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiRnJvbnRTZWF0IEFwcCIsIm5hbWUiOiJmcm9udF9zZWF0X2FwcCIsIkFQSV9USU1FIjoxNjY1MTM2MzM4fQ.-mvmGOKzk6j1dZB75VoISNF6EEn9gHpDEzmRuNb2IvM';
-  static const String base = 'https://frontseat.nextnow.group';
+  static const String base = 'https://frontseat.group';
   static const String loginUser = '$base/api/agentLogin';
   static const String registerUser = '$base/api/agentSignup';
   static const String forgotPass = '$base/api/agentForgotPassword';
