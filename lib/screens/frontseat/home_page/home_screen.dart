@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:nextschool/screens/frontseat/agent_onboarding/agent_contract/contract_screen.dart';
 import 'package:nextschool/screens/frontseat/home_page/widgets/action_card.dart';
 import 'package:nextschool/screens/frontseat/home_page/widgets/contract_card.dart';
 import 'package:nextschool/screens/frontseat/landing_screen.dart';
@@ -21,6 +20,7 @@ import '../../../utils/model/ReceivedSms.dart';
 import '../../../utils/widget/textwidget.dart';
 import '../agent_onboarding/form_resubmission_page.dart';
 import '../agent_onboarding/submitted_for_verification.dart';
+import '../agent_onboarding/upload_signature/signature_screen.dart';
 import '../agent_onboarding/verify_account.dart';
 import '../ammendment/ammendment_screen.dart';
 import '../termination/termination_screen.dart';
@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => ContractScreen(),
+                            builder: (context) => SignatureScreen(),
                           ),
                         );
                       } else if (kycStepModelController.isEditableValue) {

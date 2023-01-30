@@ -21,9 +21,11 @@ import 'package:nextschool/screens/frontseat/agent_onboarding/upload_bank_detail
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_govt_id/controller/upload_govt_id_bloc.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_personal_information/controller/upload_personal_information_bloc.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_selfie/controller/upload_selfie_bloc.dart';
+import 'package:nextschool/screens/frontseat/agent_onboarding/upload_signature/controller/signature_bloc.dart';
 import 'package:nextschool/screens/frontseat/landing_screen.dart';
 import 'package:nextschool/screens/frontseat/nav_bar.dart';
 import 'package:nextschool/utils/Utils.dart';
+import 'package:nextschool/utils/apis/kyc_api.dart';
 import 'package:nextschool/utils/theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -59,7 +61,6 @@ void main() async {
   //Notification controller
   // NotificationController notificationController =
   //     Get.put(NotificationController());
-
 //starting the app
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -93,6 +94,8 @@ void main() async {
     var zoom = await Utils.getIntValue('zoom');
     var isAdministrator = await Utils.getStringValue('isAdministrator');
     var token = await Utils.getStringValue('token');
+    KycApi.AgentStatus();
+    KycApi.kycStatus();
 
     //set values to controller
     userDetailsController.id = id;
@@ -249,7 +252,12 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => UploadPersonalInformationBloc()),
         BlocProvider(create: (context) => UploadGovtIdBloc()),
         BlocProvider(create: (context) => UploadBankDetailsBloc()),
-        BlocProvider(create: (context) => ContractBloc()),
+        BlocProvider(
+          create: (context) => ContractBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SignatureBloc(),
+        )
       ],
       child: ScreenUtilInit(
         splitScreenMode: true,

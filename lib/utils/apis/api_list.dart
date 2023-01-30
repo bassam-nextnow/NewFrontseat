@@ -12,6 +12,7 @@ class FrontSeatApi {
   static const String mobileverified = '$base/api/phoneVerificationSave';
   static const String emailverified = '$base/api/emailVerificationSave';
   static const String onboardAgent = '$base/api/agentUpdate';
+  static const String signContract = '$base/api/agentSignContract';
   static const String kycStatus = '$base/api/agentKYC';
   static const String agentStatus = '$base/api/agentStatus';
   static const String agentData = '$base/api/agentDetails';

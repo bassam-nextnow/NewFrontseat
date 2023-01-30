@@ -11,6 +11,7 @@ import 'package:nextschool/utils/apis/api_list.dart';
 import 'package:nextschool/utils/model/kyc_status_model.dart';
 
 import '../../controller/kyc_step_model.dart';
+import '../../screens/frontseat/agent_onboarding/upload_signature/agent_details_verification.dart';
 import '../../screens/frontseat/nav_bar.dart';
 import '../../utils/utils.dart';
 import '../model/frontseat_user_detail_model.dart';
@@ -516,10 +517,10 @@ class KycApi {
           KycStepModelController.reviewerValue = reviewer;
           // return comments;
         }
-        if (status == 'Incontracting' && contracted == 'Yes') {
+        if (status == 'Ready to Sign Contract' && contracted == 'Yes') {
           KycStepModelController.rejectedValue = false;
           KycStepModelController.contractedValue = true;
-        } else if (status == 'Incontracting') {
+        } else if (status == 'Ready to Sign Contract') {
           KycStepModelController.inContractingValue = true;
           KycStepModelController.rejectedValue = false;
         }
@@ -591,27 +592,35 @@ class KycApi {
   }
 
   static agentSignature(
-    String id,
-    String signature,
-    // String bankStatement,
-  ) async {
+      String location, String signature, String date, BuildContext context
+      // String bankStatement,
+      ) async {
+    var token = await Utils.getStringValue('token');
     FormData formData = FormData.fromMap({
-      'staffid': id,
-      'agent_signature': await MultipartFile.fromFile(signature),
+      'agent_signature_location': location,
+      'agent_signature_date': date,
+      'agent_signature_file': await MultipartFile.fromFile(signature),
     });
 
     Response response;
     Dio dio = Dio(BaseOptions(
-      headers: {'authtoken': FrontSeatApi.apiKey},
+      headers: {'Authorization': token},
       contentType: 'application/json',
     ));
     try {
       response = await dio.post(
-        FrontSeatApi.onboardAgent,
+        FrontSeatApi.signContract,
         data: formData,
       );
       if (response.statusCode == 200) {
-        Utils.showToast('Signature added Successfully');
+        var data = await getUserDetails();
+        Utils.showToast('Details added Successfully');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AgentDetailsVerificationScreen(
+                      data: data!.data!.agentDetails!,
+                    )));
       } else {
         Utils.showToast('Something went wrong');
       }

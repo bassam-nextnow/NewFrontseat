@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:nextschool/screens/frontseat/agent_onboarding/agent_contract/signature_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
-
 import '../../../../controller/kyc_step_model.dart';
 import '../../../../utils/Utils.dart';
 import '../../../../utils/apis/kyc_api.dart';
 import '../../../../utils/widget/textwidget.dart';
+import '../upload_signature/signature_screen.dart';
 import 'controller/contract_bloc.dart';
 
 class ContractScreen extends StatefulWidget {
