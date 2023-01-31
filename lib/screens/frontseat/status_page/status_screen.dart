@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/agent_contract/contract_screen.dart';
+import 'package:nextschool/screens/frontseat/agent_onboarding/upload_signature/signature_screen.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/verify_email_screen.dart';
 import 'package:nextschool/screens/frontseat/change_password_screen.dart';
 import 'package:nextschool/screens/frontseat/status_page/widgets/detail_card.dart';
@@ -161,7 +162,14 @@ class _CustomSidebarState extends State<CustomSidebar> {
                             ),
                             InkWell(
                               onTap: () {
-                                if (kycStepModelController
+                                if (kycStepModelController.pdfReadyValue) {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) => ContractScreen(),
+                                    ),
+                                  );
+                                } else if (kycStepModelController
                                         .allStepsCompletedValue &&
                                     kycStepModelController.inContractingValue &&
                                     kycStepModelController.contractedValue) {
@@ -178,7 +186,8 @@ class _CustomSidebarState extends State<CustomSidebar> {
                                   Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => ContractScreen()),
+                                        builder: (context) =>
+                                            SignatureScreen()),
                                   );
                                 } else if (kycStepModelController
                                     .isEditableValue) {

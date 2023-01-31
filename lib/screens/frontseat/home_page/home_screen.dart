@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:nextschool/screens/frontseat/agent_onboarding/agent_active_screen.dart';
+import 'package:nextschool/screens/frontseat/agent_onboarding/agent_contract/contract_screen.dart';
 import 'package:nextschool/screens/frontseat/home_page/widgets/action_card.dart';
 import 'package:nextschool/screens/frontseat/home_page/widgets/contract_card.dart';
 import 'package:nextschool/screens/frontseat/landing_screen.dart';
@@ -250,16 +252,33 @@ class _HomeScreenState extends State<HomeScreen> {
                             kycStepModelController.contractedValue
                         ? const Color(0xfff7b7b7)
                         : const Color(0xff76b17b),
-                    title: kycStepModelController.inContractingValue ||
-                            kycStepModelController.contractedValue
-                        ? 'Signing Contract\ndocument by Agent'
-                        : 'Agent\nOnboarding',
+                    title: kycStepModelController.pdfReadyValue
+                        ? 'View Contract'
+                        : kycStepModelController.inContractingValue ||
+                                kycStepModelController.contractedValue
+                            ? 'Signing Contract\ndocument by Agent'
+                            : 'Agent\nOnboarding',
                     asset: kycStepModelController.inContractingValue ||
                             kycStepModelController.contractedValue
                         ? 'assets/images/Signing contract.png'
                         : 'assets/images/Mask1.png',
                     ontap: () async {
-                      if (kycStepModelController.allStepsCompletedValue &&
+                      if (kycStepModelController.activeValue) {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const AgentActiveScreen(),
+                          ),
+                        );
+                      } else if (kycStepModelController.pdfReadyValue) {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const ContractScreen(),
+                          ),
+                        );
+                      } else if (kycStepModelController
+                              .allStepsCompletedValue &&
                           kycStepModelController.inContractingValue &&
                           kycStepModelController.contractedValue) {
                         Navigator.push(

@@ -24,6 +24,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
   final TextEditingController locationController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   var image;
 
@@ -60,126 +61,138 @@ class _SignatureScreenState extends State<SignatureScreen> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.all(8.sp),
-                child: Column(
-                  children: [
-                    TxtField(
-                      hint: 'Signature Location*',
-                      controller: locationController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Signature location is required';
-                        }
-                        return null;
-                      },
-                    ),
-                    Utils.sizedBoxHeight(30),
-                    Row(
-                      children: [
-                        const TextWidget(
-                          txt: 'Draw your signature below',
-                          weight: FontWeight.w500,
-                          size: 15,
-                        ),
-                      ],
-                    ),
-                    Utils.sizedBoxHeight(0.5.h),
-                    Center(
-                      child: DottedBorder(
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(10),
-                        color: Colors.red,
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          width: MediaQuery.of(context).size.width,
-                          child: Stack(
-                            alignment: Alignment.topRight,
-                            children: [
-                              Signature(
-                                controller: signatureController,
-                                backgroundColor: Colors.grey.shade200,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        signatureController.undo();
-                                      },
-                                      icon: const Icon(
-                                        Icons.undo,
-                                        color: Colors.black54,
-                                        size: 22,
-                                      )),
-                                  IconButton(
-                                      onPressed: () {
-                                        signatureController.clear();
-                                      },
-                                      icon: const Icon(
-                                        Icons.clear,
-                                        color: Colors.black54,
-                                        size: 22,
-                                      )),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TxtField(
+                        hint: 'Signature Location*',
+                        controller: locationController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Signature location is required';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                    Utils.sizedBoxHeight(20),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: Row(
+                      Utils.sizedBoxHeight(30),
+                      Row(
                         children: [
-                          IconButton(
-                            icon: Icon(state.confirmDate
-                                ? Icons.check_circle
-                                : Icons.circle_outlined),
-                            color:
-                                state.confirmDate ? Colors.green : Colors.grey,
-                            onPressed: () {
-                              context
-                                  .read<SignatureBloc>()
-                                  .add(ConfirmDateEvent());
-                            },
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Text(
-                              'I confirm the signature was added on ${parseDate()}',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
+                          const TextWidget(
+                            txt: 'Draw your signature below',
+                            weight: FontWeight.w500,
+                            size: 15,
                           ),
                         ],
                       ),
-                    ),
-                    Utils.sizedBoxHeight(20),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: RoundedLoadingButton(
-                        resetAfterDuration: true,
-                        resetDuration: const Duration(seconds: 10),
-                        width: 100.w,
-                        borderRadius: 10,
-                        color: Colors.red,
-                        controller: _btnController,
-                        onPressed: () async {
-                          context.read<SignatureBloc>().add(SubmitDataEvent(
-                              location: locationController.text,
-                              controller: signatureController,
-                              date: parseDate(),
-                              context: context));
-                        },
-                        child: const Text('Next',
-                            style: TextStyle(color: Colors.white)),
+                      Utils.sizedBoxHeight(0.5.h),
+                      Center(
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          color: Colors.red,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            width: MediaQuery.of(context).size.width,
+                            child: Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Signature(
+                                  controller: signatureController,
+                                  backgroundColor: Colors.grey.shade200,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          signatureController.undo();
+                                        },
+                                        icon: const Icon(
+                                          Icons.undo,
+                                          color: Colors.black54,
+                                          size: 22,
+                                        )),
+                                    IconButton(
+                                        onPressed: () {
+                                          signatureController.clear();
+                                        },
+                                        icon: const Icon(
+                                          Icons.clear,
+                                          color: Colors.black54,
+                                          size: 22,
+                                        )),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      Utils.sizedBoxHeight(20),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(state.confirmDate
+                                  ? Icons.check_circle
+                                  : Icons.circle_outlined),
+                              color: state.confirmDate
+                                  ? Colors.green
+                                  : Colors.grey,
+                              onPressed: () {
+                                context
+                                    .read<SignatureBloc>()
+                                    .add(ConfirmDateEvent());
+                              },
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                'I confirm the signature was added on ${parseDate()}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Utils.sizedBoxHeight(20),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: RoundedLoadingButton(
+                          resetAfterDuration: true,
+                          resetDuration: const Duration(seconds: 10),
+                          width: 100.w,
+                          borderRadius: 10,
+                          color: Colors.red,
+                          controller: _btnController,
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate() &&
+                                state.confirmDate == true &&
+                                signatureController.isNotEmpty) {
+                              context.read<SignatureBloc>().add(SubmitDataEvent(
+                                  location: locationController.text,
+                                  controller: signatureController,
+                                  date: parseDate(),
+                                  context: context));
+                            } else {
+                              _btnController.reset();
+                              Utils.showErrorToast(
+                                  'Add every details to continue');
+                            }
+                          },
+                          child: const Text('Next',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

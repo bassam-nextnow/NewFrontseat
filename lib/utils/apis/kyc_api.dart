@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getx;
-import 'package:nextschool/screens/frontseat/agent_onboarding/submitted_for_verification.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_bank_details/bank_details_page.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_personal_information/onboard_personal_data_screen.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/verify_account.dart';
@@ -481,7 +480,7 @@ class KycApi {
 
   static Future<String?> AgentStatus() async {
     String? status;
-    String? contracted;
+    String? pdfReady;
     var comments;
     var reviewer;
     var token = await Utils.getStringValue('token');
@@ -492,15 +491,15 @@ class KycApi {
     ));
     final KycStepModelController = getx.Get.put(KycStepModel());
     try {
-      response = await dio.get(FrontSeatApi.agentStatus);
+      response = await dio.get(FrontSeatApi.status);
       if (response.statusCode == 200) {
         log(response.data.toString());
         var data = response.data['data']['AgentStatusDetails'];
         status = data['latest_status'];
-        // contracted = data['contract_accept'];
-
+        pdfReady = data['final_doc'];
         comments = data['latest_comment'];
         reviewer = data['agent_under'];
+        log(pdfReady.toString());
         if (status == 'Rejected') {
           KycStepModelController.allStepsCompletedValue = false;
           KycStepModelController.isEditableValue = true;
@@ -515,14 +514,34 @@ class KycApi {
           KycStepModelController.rejectedValue = true;
           KycStepModelController.commentValue = comments;
           KycStepModelController.reviewerValue = reviewer;
+          KycStepModelController.pdfReadyValue = false;
+          KycStepModelController.inContractingValue = false;
+          KycStepModelController.contractedValue = false;
           // return comments;
         }
-        if (status == 'Ready to Sign Contract' && contracted == 'Yes') {
+        if (status == 'Awaiting Company Signature' && pdfReady!.length > 5) {
+          log('true');
+          KycStepModelController.rejectedValue = false;
+          KycStepModelController.pdfReadyValue = true;
+          KycStepModelController.inContractingValue = true;
+          KycStepModelController.contractedValue = true;
+        } else if (status == 'Awaiting Company Signature') {
           KycStepModelController.rejectedValue = false;
           KycStepModelController.contractedValue = true;
-        } else if (status == 'Ready to Sign Contract') {
+          KycStepModelController.inContractingValue = true;
+          KycStepModelController.pdfReadyValue = false;
+        }
+        if (status == 'Ready to Sign Contract') {
           KycStepModelController.inContractingValue = true;
           KycStepModelController.rejectedValue = false;
+          KycStepModelController.contractedValue = false;
+        }
+        if (status == 'Active') {
+          KycStepModelController.rejectedValue = false;
+          KycStepModelController.pdfReadyValue = false;
+          KycStepModelController.inContractingValue = false;
+          KycStepModelController.contractedValue = false;
+          KycStepModelController.activeValue = true;
         }
       } else {
         debugPrint('Error Encountered : ${response.data}');
@@ -533,20 +552,18 @@ class KycApi {
     return status;
   }
 
-  static Future getPDF(int id) async {
-    var data = {
-      'User_id': id,
-    };
-    FormData formData = FormData.fromMap(data);
+  static Future getPDF() async {
+    var token = await Utils.getStringValue('token');
     Response response;
     Dio dio = Dio(BaseOptions(
-      headers: {'authtoken': FrontSeatApi.apiKey},
+      headers: {'Authorization': token},
       contentType: 'application/json',
     ));
     try {
-      response = await dio.post(FrontSeatApi.getpdf, data: formData);
+      response = await dio.get(FrontSeatApi.getpdf);
       if (response.statusCode == 200) {
-        var url = response.data['data'];
+        log(response.data.toString());
+        var url = response.data['data']['final_doc'];
         log(url);
         return url;
       } else {
@@ -559,26 +576,28 @@ class KycApi {
     return null;
   }
 
-  static contractAgreement(String id, BuildContext context) async {
+  static contractAgreement(String value, BuildContext context) async {
     try {
       var data = {
-        'termscondition_accept': 'Yes',
-        'contract_accept': 'Yes',
-        'staffid': id,
+        'accept_reject': value,
       };
+      var token = await Utils.getStringValue('token');
       FormData formData = FormData.fromMap(data);
       Response response;
       Dio dio = Dio(BaseOptions(
-        headers: {'authtoken': FrontSeatApi.apiKey},
+        headers: {'Authorization': token},
         contentType: 'application/json',
       ));
       response = await dio.post(FrontSeatApi.acceptContract, data: formData);
       if (response.statusCode == 200) {
-        Utils.showToast('Contract accepted Successfully');
+        Utils.showToast('Contract submitted successfully');
+        if (value == 'accept') {}
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => const SubmittedForVerificationScreen()));
+                builder: ((context) => const BottomBar(
+                      index: 1,
+                    ))));
       } else {
         Utils.showToast('Something went wrong');
       }

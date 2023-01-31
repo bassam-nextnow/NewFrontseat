@@ -14,12 +14,12 @@ class FrontSeatApi {
   static const String onboardAgent = '$base/api/agentUpdate';
   static const String signContract = '$base/api/agentSignContract';
   static const String kycStatus = '$base/api/agentKYC';
-  static const String agentStatus = '$base/api/agentStatus';
+  static const String status = '$base/api/agentStatus';
   static const String agentData = '$base/api/agentDetails';
   static const String checkInOut = '$baseUrl/timesheets/api/check_in_out';
   static const String acceptContract =
-      '$baseUrl/api/Applogin/agentContractAccept';
-  static const String getpdf = '$baseUrl/api/Applogin/agentContractPdf';
+      '$base/api/agentAcceptReject';
+  static const String getpdf = '$base/api/agentContractPdf';
   static String setToken(String? id, String? token) {
     return base + '/api/' + 'set-fcm-token?id=$id&token=$token';
   }

@@ -12,6 +12,7 @@ class KycStepModel extends GetxController {
   final Rx<String> reviewer = "".obs;
   final Rx<bool> inContracting = false.obs;
    final Rx<bool> contracted = false.obs;
+   final Rx<bool> pdfReady = false.obs;
 final Rx<bool> active = false.obs;
 
   //define getter and setter
@@ -26,6 +27,7 @@ final Rx<bool> active = false.obs;
   bool get inContractingValue => inContracting.value;
   bool get contractedValue => contracted.value;
    bool get activeValue => active.value;
+   bool get pdfReadyValue => pdfReady.value;
   String get commentValue => comment.value;
   String get reviewerValue => reviewer.value;
 
@@ -69,5 +71,8 @@ final Rx<bool> active = false.obs;
   }
    set activeValue(bool value) {
     active.value = value;
+  }
+  set pdfReadyValue(bool value) {
+    pdfReady.value = value;
   }
 }

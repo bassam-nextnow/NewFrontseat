@@ -12,8 +12,7 @@ part 'contract_state.dart';
 class ContractBloc extends Bloc<ContractEvent, ContractState> {
   ContractBloc() : super(ContractInitial()) {
     on<AcceptAgreementEvent>((event, emit) async {
-      var id = await Utils.getStringValue('id');
-      await KycApi.contractAgreement(id!, event.context);
+      await KycApi.contractAgreement(event.value, event.context);
     });
     on<AcceptFirstCheckEvent>((event, emit) {
       emit(ContractState(

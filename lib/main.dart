@@ -94,8 +94,8 @@ void main() async {
     var zoom = await Utils.getIntValue('zoom');
     var isAdministrator = await Utils.getStringValue('isAdministrator');
     var token = await Utils.getStringValue('token');
-    KycApi.AgentStatus();
-    KycApi.kycStatus();
+   await KycApi.AgentStatus();
+   await KycApi.kycStatus();
 
     //set values to controller
     userDetailsController.id = id;

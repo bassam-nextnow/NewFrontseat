@@ -348,6 +348,7 @@ class _LoginFrontSeatState extends State<LoginFrontSeat> {
       schoolUrl = FrontSeatApi.base;
       Utils.showToast('Successfully logged in');
       await KycApi.kycStatus();
+      await KycApi.AgentStatus();
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(

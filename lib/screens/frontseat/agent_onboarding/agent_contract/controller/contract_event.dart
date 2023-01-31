@@ -4,7 +4,8 @@ class ContractEvent {}
 
 class AcceptAgreementEvent extends ContractEvent {
   BuildContext context;
-  AcceptAgreementEvent({required this.context});
+  String value;
+  AcceptAgreementEvent({required this.context,required this.value});
 }
 
 class AcceptFirstCheckEvent extends ContractEvent {}
