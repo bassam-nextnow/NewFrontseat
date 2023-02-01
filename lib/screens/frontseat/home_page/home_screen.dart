@@ -389,6 +389,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   kycStepModelController.isEditableValue = false;
                   kycStepModelController.inContractingValue = false;
                   kycStepModelController.contractedValue = false;
+                  kycStepModelController.activeValue = false;                  
+                  kycStepModelController.pdfReadyValue = false;
+                  kycStepModelController.reviewerValue = '';
                   kycStepModelController.commentValue = '';
                   await Utils.clearAllValue();
                   Navigator.pushReplacement(

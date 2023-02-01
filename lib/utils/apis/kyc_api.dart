@@ -519,8 +519,7 @@ class KycApi {
           KycStepModelController.contractedValue = false;
           // return comments;
         }
-        if (status == 'Awaiting Company Signature' && pdfReady!.length > 5) {
-          log('true');
+        if (status == 'Awaiting Company Signature' && pdfReady != null || pdfReady.toString().length > 5) {
           KycStepModelController.rejectedValue = false;
           KycStepModelController.pdfReadyValue = true;
           KycStepModelController.inContractingValue = true;
