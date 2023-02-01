@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:signature/signature.dart';
 
-import '../../../../../../utils/apis/kyc_api.dart';
+import '../../../services/kyc_api.dart';
 
 part 'signature_event.dart';
 part 'signature_state.dart';

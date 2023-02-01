@@ -13,11 +13,11 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../utils/apis/api_list.dart';
-import '../../utils/apis/kyc_api.dart';
-import '../../utils/widget/textwidget.dart';
-import '../../utils/widget/txtbox.dart';
-import 'agent_onboarding/verify_email_screen.dart';
+import '../services/api_list.dart';
+import '../services/kyc_api.dart';
+import '../../../utils/widget/textwidget.dart';
+import '../../../utils/widget/txtbox.dart';
+import '../agent_onboarding/verify_email_screen.dart';
 
 class NewRegisterScreen extends StatefulWidget {
   const NewRegisterScreen({Key? key}) : super(key: key);

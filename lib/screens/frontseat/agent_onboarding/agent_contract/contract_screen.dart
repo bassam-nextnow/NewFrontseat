@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../controller/kyc_step_model.dart';
 import '../../../../utils/Utils.dart';
-import '../../../../utils/apis/kyc_api.dart';
+import '../../services/kyc_api.dart';
 import '../../../../utils/widget/textwidget.dart';
 import 'controller/contract_bloc.dart';
 

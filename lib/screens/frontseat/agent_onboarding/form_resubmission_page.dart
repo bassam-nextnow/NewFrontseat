@@ -5,7 +5,7 @@ import 'package:nextschool/screens/frontseat/agent_onboarding/upload_personal_in
 
 import '../../../controller/kyc_step_model.dart';
 import '../../../utils/Utils.dart';
-import '../../../utils/apis/kyc_api.dart';
+import '../services/kyc_api.dart';
 import '../../../utils/widget/textwidget.dart';
 
 class FormReSubmissionScreen extends StatefulWidget {

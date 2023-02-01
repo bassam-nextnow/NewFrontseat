@@ -8,8 +8,8 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../utils/Utils.dart';
-import '../../../../utils/frontseat_constants.dart';
-import '../../../../utils/model/frontseat_user_detail_model.dart';
+import '../../frontseat_constants.dart';
+import '../../model/frontseat_user_detail_model.dart';
 import '../../../../utils/widget/textwidget.dart';
 import '../../../../utils/widget/txtbox.dart';
 import 'controller/upload_govt_id_bloc.dart';

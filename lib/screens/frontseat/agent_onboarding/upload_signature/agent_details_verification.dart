@@ -3,7 +3,7 @@ import 'package:nextschool/screens/frontseat/agent_onboarding/submitted_for_veri
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../../utils/model/frontseat_user_detail_model.dart';
+import '../../model/frontseat_user_detail_model.dart';
 import '../../../../../utils/widget/textwidget.dart';
 
 class AgentDetailsVerificationScreen extends StatelessWidget {

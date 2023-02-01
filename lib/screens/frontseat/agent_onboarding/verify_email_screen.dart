@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:nextschool/utils/apis/kyc_api.dart';
+import 'package:nextschool/screens/frontseat/services/kyc_api.dart';
 
 import '../nav_bar.dart';
 

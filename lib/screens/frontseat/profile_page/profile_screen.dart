@@ -7,8 +7,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../../controller/kyc_step_model.dart';
 import '../../../utils/Utils.dart';
-import '../../../utils/apis/kyc_api.dart';
-import '../../../utils/model/frontseat_user_detail_model.dart';
+import '../services/kyc_api.dart';
+import '../model/frontseat_user_detail_model.dart';
 import '../../../utils/widget/textwidget.dart';
 
 class ProfileScreen extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../utils/Utils.dart';
-import '../../../../../utils/apis/kyc_api.dart';
+import '../../../services/kyc_api.dart';
 
 part 'upload_selfie_event.dart';
 part 'upload_selfie_state.dart';

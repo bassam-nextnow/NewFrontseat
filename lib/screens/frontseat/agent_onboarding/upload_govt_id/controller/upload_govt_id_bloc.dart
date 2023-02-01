@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../../utils/Utils.dart';
-import '../../../../../utils/apis/kyc_api.dart';
-import '../../../../../utils/model/frontseat_user_detail_model.dart';
+import '../../../services/kyc_api.dart';
+import '../../../model/frontseat_user_detail_model.dart';
 part 'upload_govt_id_event.dart';
 part 'upload_govt_id_state.dart';
 

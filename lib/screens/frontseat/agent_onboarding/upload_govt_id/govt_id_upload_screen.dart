@@ -10,7 +10,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../controller/kyc_step_model.dart';
 import '../../../../utils/Utils.dart';
-import '../../../../utils/model/frontseat_user_detail_model.dart';
+import '../../model/frontseat_user_detail_model.dart';
 import '../../../../utils/widget/textwidget.dart';
 import 'controller/upload_govt_id_bloc.dart';
 

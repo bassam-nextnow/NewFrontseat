@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../utils/Utils.dart';
-import '../../utils/apis/api_list.dart';
-import '../../utils/widget/textwidget.dart';
-import '../../utils/widget/txtbox.dart';
+import '../../../utils/Utils.dart';
+import '../services/api_list.dart';
+import '../../../utils/widget/textwidget.dart';
+import '../../../utils/widget/txtbox.dart';
 
 class ForgotPassword extends StatefulWidget {
   ForgotPassword({Key? key}) : super(key: key);

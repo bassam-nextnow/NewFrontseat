@@ -3,17 +3,19 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getx;
+import 'package:nextschool/controller/user_controller.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_bank_details/bank_details_page.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_personal_information/onboard_personal_data_screen.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/verify_account.dart';
-import 'package:nextschool/utils/apis/api_list.dart';
+import 'package:nextschool/screens/frontseat/services/api_list.dart';
 import 'package:nextschool/utils/model/kyc_status_model.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../controller/kyc_step_model.dart';
-import '../../screens/frontseat/agent_onboarding/upload_signature/agent_details_verification.dart';
-import '../../screens/frontseat/nav_bar.dart';
-import '../../utils/utils.dart';
+import '../../../controller/kyc_step_model.dart';
+import '../../../utils/utils.dart';
+import '../agent_onboarding/upload_signature/agent_details_verification.dart';
 import '../model/frontseat_user_detail_model.dart';
+import '../nav_bar.dart';
 
 // Api ordered as per App flow
 
@@ -162,66 +164,121 @@ class KycApi {
   }
 
   static userLogin(
-      {String? email, String? password, BuildContext? context}) async {
+      {String? emailtext,
+      String? passwordtext,
+      BuildContext? ctx,
+      RoundedLoadingButtonController? btnController}) async {
     Utils.clearAllValue();
-    final body = {'email': email, 'password': password, 'remember': false};
-    FormData formData = FormData.fromMap(body);
+    UserDetailsController controller = getx.Get.put(UserDetailsController());
+    int id;
+    int roleId;
+    String role;
+    String fullName;
+    String email;
+    String mobile;
+    String dob;
+    String photo;
+    int genderId;
+    String gender;
+    String designation;
+    int zoom;
+    String is_administrator;
+    String user_type;
+    String token;
+    bool isLogged;
+    String schoolUrl;
+    var message;
+    Dio dio = Dio();
+    var data = {
+      'email': emailtext,
+      'password': passwordtext,
+    };
     try {
-      Dio dio = Dio(BaseOptions(
-        headers: {'authtoken': FrontSeatApi.apiKey},
-        contentType: 'application/json',
-      ));
       final response = await dio.post(
         FrontSeatApi.loginUser,
-        data: formData,
+        data: data,
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
-        Utils.showToast('Successfully logged in');
+        var data = response.data;
+        var userData = data['data']['user'];
+        // getting the required data from the response
+        id = userData['id'];
+        roleId = userData['role_id'];
+        role = userData['role'];
+        fullName = userData['fullname'];
+        email = userData['email'] ?? '';
+        mobile = userData['mobile'] ?? '';
+        dob = userData['dob'];
+        photo = userData['image'] ?? (userData['photo'] ?? '');
+        genderId = userData['genderId'] ?? 1;
+        gender = userData['gender'] ?? '';
+        designation = userData['designation'] ?? '';
+        zoom = userData['zoom'];
+        is_administrator = userData['is_administrator'];
+        user_type = userData['user_type'];
+        token = userData['accessToken'];
+        schoolUrl = FrontSeatApi.base;
+
+        //saving data in local
+        Utils.saveIntValue('id', id);
+        Utils.saveIntValue('roleId', roleId);
+        Utils.saveStringValue('rule', role);
+        Utils.saveStringValue('fullname', fullName);
+        Utils.saveStringValue('email', email);
+        Utils.saveStringValue('mobile', mobile);
+        Utils.saveStringValue('dob', dob);
+        Utils.saveStringValue('image', photo);
+        Utils.saveIntValue('genderId', genderId);
+        Utils.saveStringValue('gender', gender);
+        Utils.saveStringValue('designation', designation);
+        Utils.saveIntValue('zoom', zoom);
+        Utils.saveStringValue('isAdministrator', is_administrator);
+        Utils.saveStringValue('user_type', user_type);
+        Utils.saveStringValue('token', token);
         Utils.saveBooleanValue('isLogged', true);
-        var id = response.data['user_data']['staffid'];
-        Utils.saveStringValue('uid', id);
-        await kycStatus();
-        await AgentStatus();
+        Utils.saveStringValue('schoolUrl', schoolUrl);
+
+        //intialize the user controller with the required data
+        controller.id = id;
+        controller.roleId = roleId;
+        controller.role = role;
+        controller.fullName = fullName;
+        controller.email = email;
+        controller.mobile = mobile;
+        controller.dob = dob;
+        controller.photo = photo;
+        controller.genderId = genderId;
+        controller.gender = gender;
+        controller.designation = designation;
+        controller.zoom = zoom;
+        controller.is_administrator = is_administrator;
+        controller.user_type = user_type;
+        controller.token = token;
+        controller.isLogged = true;
+        schoolUrl = FrontSeatApi.base;
+        Utils.showToast('Successfully logged in');
+        await KycApi.kycStatus();
+        await KycApi.AgentStatus();
         Navigator.pushAndRemoveUntil(
-            context!,
+            ctx!,
             MaterialPageRoute(
                 builder: (BuildContext context) => const BottomBar()),
             (Route<dynamic> route) => route is BottomBar);
+        btnController!.reset();
+      } else if (response.statusCode == 400) {
+        Utils.showToast('Incorrect Email or Password');
+        btnController!.reset();
+      } else {
+        Utils.showToast('Incorrect Email or Password');
+        btnController!.reset();
       }
     } on DioError catch (e) {
       Utils.showToast('Incorrect Email or Password');
+      btnController!.reset();
       log(e.toString());
       return e.toString();
     }
-  }
-
-  static resetPassword(String email, BuildContext context) async {
-    log('Api invoked');
-    final body = {'email': email};
-    FormData formData = FormData.fromMap(body);
-    Dio dio = Dio(BaseOptions(
-      headers: {'authtoken': FrontSeatApi.apiKey},
-      contentType: 'application/json',
-    ));
-    try {
-      final response = await dio.post(
-        FrontSeatApi.forgotPass,
-        data: formData,
-      );
-      log(response.data.toString());
-      if (response.statusCode == 200) {
-        Utils.showToast(
-            'Reset password email link has been sent to your registered email');
-        Navigator.pop(context);
-      }
-    } on DioError catch (e) {
-      Utils.showToast('Incorrect Email address');
-      log(e.toString());
-      return e.toString();
-    }
-
-    //combine data and extraData into one map
   }
 
   static uploadSelfie(String imagePath, var uid, BuildContext context) async {
@@ -519,7 +576,8 @@ class KycApi {
           KycStepModelController.contractedValue = false;
           // return comments;
         }
-        if (status == 'Awaiting Company Signature' && pdfReady != null || pdfReady.toString().length > 5) {
+        if (status == 'Awaiting Company Signature' && pdfReady != null ||
+            pdfReady.toString().length > 5) {
           KycStepModelController.rejectedValue = false;
           KycStepModelController.pdfReadyValue = true;
           KycStepModelController.inContractingValue = true;

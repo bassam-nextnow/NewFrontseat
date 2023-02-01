@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nextschool/config/app_config.dart';
 import 'package:nextschool/controller/user_controller.dart';
+import 'package:nextschool/screens/frontseat/agent_login/controller/login_bloc.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/agent_contract/controller/contract_bloc.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_bank_details/controller/upload_bank_details_bloc.dart';
 import 'package:nextschool/screens/frontseat/agent_onboarding/upload_govt_id/controller/upload_govt_id_bloc.dart';
@@ -25,7 +26,7 @@ import 'package:nextschool/screens/frontseat/agent_onboarding/upload_signature/c
 import 'package:nextschool/screens/frontseat/landing_screen.dart';
 import 'package:nextschool/screens/frontseat/nav_bar.dart';
 import 'package:nextschool/utils/Utils.dart';
-import 'package:nextschool/utils/apis/kyc_api.dart';
+import 'package:nextschool/screens/frontseat/services/kyc_api.dart';
 import 'package:nextschool/utils/theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -248,6 +249,7 @@ class _MyAppState extends State<MyApp> {
 
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(create: (context) => UploadSelfieBloc()),
         BlocProvider(create: (context) => UploadPersonalInformationBloc()),
         BlocProvider(create: (context) => UploadGovtIdBloc()),

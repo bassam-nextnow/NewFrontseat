@@ -11,13 +11,13 @@ import 'package:nextschool/screens/frontseat/agent_onboarding/agent_contract/con
 import 'package:nextschool/screens/frontseat/home_page/widgets/action_card.dart';
 import 'package:nextschool/screens/frontseat/home_page/widgets/contract_card.dart';
 import 'package:nextschool/screens/frontseat/landing_screen.dart';
-import 'package:nextschool/screens/frontseat/new_register_screen.dart';
-import 'package:nextschool/utils/apis/api_list.dart';
+import 'package:nextschool/screens/frontseat/agent_register/new_register_screen.dart';
+import 'package:nextschool/screens/frontseat/services/api_list.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../controller/kyc_step_model.dart';
 import '../../../utils/Utils.dart';
-import '../../../utils/apis/kyc_api.dart';
+import '../services/kyc_api.dart';
 import '../../../utils/model/ReceivedSms.dart';
 import '../../../utils/widget/textwidget.dart';
 import '../agent_onboarding/form_resubmission_page.dart';

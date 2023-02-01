@@ -14,8 +14,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../controller/kyc_step_model.dart';
 import '../../../../utils/Utils.dart';
-import '../../../../utils/frontseat_constants.dart';
-import '../../../../utils/model/frontseat_user_detail_model.dart';
+import '../../frontseat_constants.dart';
+import '../../model/frontseat_user_detail_model.dart';
 import '../../../../utils/widget/textwidget.dart';
 import '../../../../utils/widget/txtbox.dart';
 import 'controller/upload_bank_details_bloc.dart';
